@@ -49,6 +49,11 @@
       opacity: 1;
     }
 
+    /* pierwsze zdjęcie (baza) bez filtra; pozostałe – wzmocniony kolor */
+    .image-stack img.visible:not(#img-plain) {
+      filter: saturate(6) contrast(1.3);
+    }
+
     .buttons {
       display: flex;
       flex-wrap: wrap;
