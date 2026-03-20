@@ -9,14 +9,72 @@
     body {
       background: #fff;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
       min-height: 100vh;
       padding: 40px 20px;
+      gap: 60px;
     }
     .graphic {
       width: 100%;
       max-width: 1060px;
+    }
+
+    /* ── Interaktywna żaglówka ── */
+    .boat-viewer {
+      width: 100%;
+      max-width: 1060px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .image-stack {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1330 / 870;
+    }
+
+    .image-stack img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-stack img.visible {
+      opacity: 1;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .buttons button {
+      padding: 10px 22px;
+      border: 2px solid #2a9d8f;
+      background: #fff;
+      color: #2a9d8f;
+      font-size: 15px;
+      font-family: inherit;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .buttons button:hover {
+      background: #e8f7f5;
+    }
+
+    .buttons button.active {
+      background: #2a9d8f;
+      color: #fff;
     }
   </style>
 </head>
@@ -235,5 +293,49 @@
 
     </svg>
   </div>
+
+  <!-- ── Interaktywna żaglówka ── -->
+  <div class="boat-viewer">
+    <div class="image-stack">
+      <!-- bazowy (zawsze widoczny jako tło) -->
+      <img id="img-plain"  src="https://i.imgur.com/2JDSPhq.png" alt="żaglówka" class="visible">
+      <!-- strefy – pokazywane po kliknięciu przycisku -->
+      <img id="img-burta"  src="https://i.imgur.com/x6tZuiC.png" alt="nad linią wody – burta">
+      <img id="img-poklad" src="https://i.imgur.com/udjBcSO.png" alt="nad linią wody – pokład">
+      <img id="img-dno"    src="https://i.imgur.com/FH8XQsU.png" alt="pod linią wody">
+    </div>
+
+    <div class="buttons">
+      <button onclick="toggle('burta',  this)">nad linią wody burty</button>
+      <button onclick="toggle('poklad', this)">nad linią wody pokład</button>
+      <button onclick="toggle('dno',    this)">pod linią wody</button>
+    </div>
+  </div>
+
+  <script>
+    let activeKey = null;
+    let activeBtn = null;
+
+    function toggle(key, btn) {
+      // wyłącz poprzednio aktywną strefę
+      if (activeKey) {
+        document.getElementById('img-' + activeKey).classList.remove('visible');
+        if (activeBtn) activeBtn.classList.remove('active');
+      }
+
+      if (activeKey === key) {
+        // kliknięto ten sam przycisk – wróć do widoku bazowego
+        activeKey = null;
+        activeBtn = null;
+      } else {
+        // włącz nową strefę
+        document.getElementById('img-' + key).classList.add('visible');
+        btn.classList.add('active');
+        activeKey = key;
+        activeBtn = btn;
+      }
+    }
+  </script>
+
 </body>
 </html>
