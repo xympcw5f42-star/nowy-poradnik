@@ -261,20 +261,27 @@
         </div>
       </div>
 
-      <!-- Viewer 3 — placeholder -->
+      <!-- Viewer 3 -->
       <div class="boat-viewer" id="viewer3">
         <span class="viewer-title">Widok 3</span>
-        <div class="viewer-placeholder">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" stroke-width="1.5">
-            <rect x="3" y="3" width="18" height="18" rx="3"/>
-            <path d="M12 8v8M8 12h8"/>
-          </svg>
-          <span>Grafika zostanie dodana</span>
+        <div class="image-stack">
+          <img id="v3-img-plain"  src="https://i.imgur.com/P1puyRU.png" alt="jacht" class="visible img-plain">
+          <img id="v3-img-burta"  src="https://i.imgur.com/Uk50rV6.png" alt="nad linią wody – burta">
+          <img id="v3-img-poklad" src="https://i.imgur.com/jVrB38M.png" alt="nad linią wody – pokład">
+          <img id="v3-img-dno"    src="https://i.imgur.com/CV4WhCt.png" alt="pod linią wody">
         </div>
-        <div class="buttons">
-          <button disabled>nad linią wody burty</button>
-          <button disabled>nad linią wody pokład</button>
-          <button disabled>pod linią wody</button>
+        <div class="buttons-row">
+          <div class="buttons">
+            <button onclick="toggle('v3', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="toggle('v3', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="toggle('v3', 'dno',    this)">pod linią wody</button>
+          </div>
+          <button class="btn-reset" onclick="reset('v3')" title="Resetuj widok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
         </div>
       </div>
 
