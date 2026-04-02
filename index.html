@@ -201,6 +201,44 @@
       gap: 8px;
       flex-wrap: wrap;
     }
+
+    .zone-options {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .zone-options.visible {
+      display: flex;
+    }
+
+    .zone-options span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8aa8b8;
+    }
+
+    .zone-options button {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #d0e4ec;
+      background: #f7fbfc;
+      color: #1a2e3b;
+      font-size: 13px;
+      font-family: inherit;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .zone-options button:hover {
+      border-color: #2a9d8f;
+      background: #e8f7f5;
+    }
   </style>
 </head>
 <body>
@@ -234,6 +272,11 @@
               <path d="M3 3v5h5"/>
             </svg>
           </button>
+        </div>
+        <div class="zone-options" id="v1-opts-poklad">
+          <span>Wybierz wariant:</span>
+          <button>Aplikacja na istniejącą powłokę</button>
+          <button>Aplikacja na żelkot</button>
         </div>
       </div>
 
@@ -291,12 +334,24 @@
   <script>
     const state = {};
 
+    function setOpts(viewerId, key) {
+      const el = document.getElementById(viewerId + '-opts-' + key);
+      // ukryj wszystkie opcje tego viewera
+      document.querySelectorAll('[id^="' + viewerId + '-opts-"]').forEach(d => d.classList.remove('visible'));
+      if (el) el.classList.add('visible');
+    }
+
+    function hideOpts(viewerId) {
+      document.querySelectorAll('[id^="' + viewerId + '-opts-"]').forEach(d => d.classList.remove('visible'));
+    }
+
     function reset(viewerId) {
       const s = state[viewerId];
       if (!s || !s.activeKey) return;
       document.getElementById(viewerId + '-img-' + s.activeKey).classList.remove('visible');
       if (s.activeBtn) s.activeBtn.classList.remove('active');
       document.getElementById(viewerId + '-img-plain').classList.add('visible');
+      hideOpts(viewerId);
       state[viewerId] = { activeKey: null, activeBtn: null };
     }
 
@@ -311,11 +366,13 @@
 
       if (s.activeKey === key) {
         plain.classList.add('visible');
+        hideOpts(viewerId);
         state[viewerId] = { activeKey: null, activeBtn: null };
       } else {
         plain.classList.remove('visible');
         document.getElementById(viewerId + '-img-' + key).classList.add('visible');
         btn.classList.add('active');
+        setOpts(viewerId, key);
         state[viewerId] = { activeKey: key, activeBtn: btn };
       }
     }
