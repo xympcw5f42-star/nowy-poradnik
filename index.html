@@ -115,9 +115,9 @@
 
     .image-stack img.visible { opacity: 1; }
 
-    /* v1, v2 – strefa pojawia się bez filtra */
-    .image-stack img.visible:not(.img-plain) {
-      /* brak filtra – obraz pokazuje się tak jak jest */
+    /* wszystkie zdjęcia czarno-białe */
+    .image-stack img {
+      filter: grayscale(1);
     }
 
     /* v3 – placeholder */
