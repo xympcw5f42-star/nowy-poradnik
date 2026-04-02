@@ -61,14 +61,11 @@
     /* ── Viewers grid ── */
     .viewers-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 28px;
     }
 
-    @media (max-width: 1024px) {
-      .viewers-row { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       .viewers-row { grid-template-columns: 1fr; }
     }
 
@@ -111,7 +108,7 @@
       object-fit: contain;
       opacity: 0;
       transition: opacity 0.3s ease;
-      filter: grayscale(1);
+      filter: grayscale(1) blur(0.6px) contrast(8);
     }
 
     .image-stack img.visible { opacity: 1; }
