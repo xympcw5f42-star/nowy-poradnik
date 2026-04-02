@@ -54,9 +54,9 @@
       filter: saturate(6) contrast(1.3);
     }
 
-    /* v2 – strefa zawsze na warstwie powyżej bazy (mix-blend) + wymuś kolor niebieskozielony */
+    /* v2 – tylko linie zmieniają kolor; białe tło przeźroczyste dzięki multiply */
     #viewer2 .image-stack img.visible:not(.img-plain) {
-      filter: grayscale(1) sepia(1) hue-rotate(145deg) saturate(6) contrast(1.3);
+      filter: hue-rotate(145deg) saturate(6) contrast(1.3);
       mix-blend-mode: multiply;
     }
 
