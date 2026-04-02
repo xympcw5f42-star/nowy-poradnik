@@ -111,7 +111,7 @@
       object-fit: contain;
       opacity: 0;
       transition: opacity 0.3s ease;
-      filter: grayscale(1) contrast(1.2);
+      filter: grayscale(1) contrast(1.2) url(#thicken);
     }
 
     .image-stack img.visible { opacity: 1; }
@@ -204,6 +204,16 @@
   </style>
 </head>
 <body>
+
+  <!-- SVG filter: dilate rozszerza ciemne piksele → grubsze linie -->
+  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+    <defs>
+      <filter id="thicken" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feColorMatrix type="saturate" values="0"/>
+        <feMorphology operator="dilate" radius="1"/>
+      </filter>
+    </defs>
+  </svg>
 
   <header>
     <h1>Poradnik malowania jachtów</h1>
