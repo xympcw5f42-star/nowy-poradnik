@@ -54,10 +54,10 @@
       filter: saturate(6) contrast(1.3);
     }
 
-    /* v2 – tylko linie zmieniają kolor; białe tło przeźroczyste dzięki multiply */
+    /* v2 – invert: czarne linie → białe; sepia+hue-rotate → teal; screen: czarne tło transparentne */
     #viewer2 .image-stack img.visible:not(.img-plain) {
-      filter: hue-rotate(145deg) saturate(6) contrast(1.3);
-      mix-blend-mode: multiply;
+      filter: invert(1) sepia(1) hue-rotate(145deg) saturate(6) contrast(1.2);
+      mix-blend-mode: screen;
     }
 
     /* ── Dwa widgety obok siebie ── */
