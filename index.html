@@ -116,10 +116,6 @@
 
     .image-stack img.visible { opacity: 1; }
 
-    /* v1 – strefa na białym tle: multiply sprawia że białe tło znika, zostaje tylko zaznaczona strefa */
-    #viewer1 .image-stack img.visible:not(.img-plain) {
-      mix-blend-mode: multiply;
-    }
 
     /* v3 – placeholder */
     .viewer-placeholder {
@@ -189,10 +185,10 @@
       <div class="boat-viewer" id="viewer1">
         <span class="viewer-title">Jacht motorowy</span>
         <div class="image-stack">
-          <img id="v1-img-plain"  src="https://i.imgur.com/2JDSPhq.png" alt="żaglówka" class="visible img-plain">
-          <img id="v1-img-burta"  src="https://i.imgur.com/FH8XQsU.png" alt="nad linią wody – burta">
-          <img id="v1-img-poklad" src="https://i.imgur.com/udjBcSO.png" alt="nad linią wody – pokład">
-          <img id="v1-img-dno"    src="https://i.imgur.com/x6tZuiC.png" alt="pod linią wody">
+          <img id="v1-img-plain"  src="https://i.imgur.com/plGSk2b.png" alt="żaglówka" class="visible img-plain">
+          <img id="v1-img-burta"  src="https://i.imgur.com/oSd7uNq.png" alt="nad linią wody – burta">
+          <img id="v1-img-poklad" src="https://i.imgur.com/MGlzIqJ.png" alt="nad linią wody – pokład">
+          <img id="v1-img-dno"    src="https://i.imgur.com/e43VPzo.png" alt="pod linią wody">
         </div>
         <div class="buttons">
           <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
@@ -240,9 +236,6 @@
   <script>
     const state = {};
 
-    // v1 używa multiply – baza musi zostać widoczna żeby białe tło działało jako "przeźroczyste"
-    const keepBase = new Set(['v1']);
-
     function toggle(viewerId, key, btn) {
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
       const plain = document.getElementById(viewerId + '-img-plain');
@@ -253,10 +246,10 @@
       }
 
       if (s.activeKey === key) {
-        if (!keepBase.has(viewerId)) plain.classList.add('visible');
+        plain.classList.add('visible');
         state[viewerId] = { activeKey: null, activeBtn: null };
       } else {
-        if (!keepBase.has(viewerId)) plain.classList.remove('visible');
+        plain.classList.remove('visible');
         document.getElementById(viewerId + '-img-' + key).classList.add('visible');
         btn.classList.add('active');
         state[viewerId] = { activeKey: key, activeBtn: btn };
