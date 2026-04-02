@@ -239,6 +239,65 @@
       border-color: #2a9d8f;
       background: #e8f7f5;
     }
+
+    .zone-options button.active {
+      border-color: #2a9d8f;
+      background: #e8f7f5;
+      color: #0d4f6c;
+      font-weight: 600;
+    }
+
+    .info-panel {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 14px;
+      padding: 16px;
+      background: #f7fbfc;
+      border: 1.5px solid #d0e4ec;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1a2e3b;
+    }
+
+    .info-panel.visible { display: flex; }
+
+    .info-panel h4 {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #2a9d8f;
+      margin-bottom: 2px;
+    }
+
+    .info-panel p { margin: 0; }
+
+    .info-panel .product-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      padding: 6px 12px;
+      border: 1.5px solid #2a9d8f;
+      border-radius: 6px;
+      color: #2a9d8f;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .info-panel .product-link:hover { background: #e8f7f5; }
+
+    .info-panel .products { display: flex; flex-direction: column; gap: 6px; }
+
+    .info-panel hr {
+      border: none;
+      border-top: 1px solid #d0e4ec;
+      margin: 2px 0;
+    }
   </style>
 </head>
 <body>
@@ -275,8 +334,32 @@
         </div>
         <div class="zone-options" id="v1-opts-poklad">
           <span>Wybierz wariant:</span>
-          <button>Aplikacja na istniejącą powłokę</button>
-          <button>Aplikacja na żelkot</button>
+          <button id="v1-opt-powloka" onclick="showInfo('v1-info-powloka', this, 'v1-opts-poklad')">Aplikacja na istniejącą powłokę</button>
+          <button id="v1-opt-zelkot"  onclick="showInfo('v1-info-zelkot',  this, 'v1-opts-poklad')">Aplikacja na żelkot</button>
+        </div>
+
+        <div class="info-panel" id="v1-info-powloka">
+          <div>
+            <h4>Odświeżenie istniejącej powłoki</h4>
+            <p>Jeżeli farba jest w dobrym stanie i chcemy ją tylko odświeżyć, można zastosować farbę jednoskładnikową:</p>
+            <div class="products">
+              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank">↗ Epifanes Mono-Urethane</a>
+              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwposlizgowa-nonskid-deckoating-0-75l-rozne-kolory-p-23.html" target="_blank">↗ Epifanes Mono-Urethane przeciwpoślizgowa</a>
+            </div>
+          </div>
+          <hr>
+          <div>
+            <h4>Twarda farba poliuretanowa</h4>
+            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, należy najpierw nałożyć podkład przekładkowy, a następnie farbę poliuretanową. Do farby można dodać proszek przeciwpoślizgowy.</p>
+            <div class="products">
+              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-uniwersalna-multi-marine-primer-0-75l-p-48.html" target="_blank">↗ Epifanes MultiMarine Primer (podkład)</a>
+              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank">↗ Farby poliuretanowe dwuskładnikowe</a>
+              <a class="product-link" href="https://www.farbyjachtowe.pl/granulat-przeciwposlizgowy-nonskid-beads-do-farb-mono-i-poly-urethane-20-g-p-77.html" target="_blank">↗ Granulat przeciwpoślizgowy (dodatek)</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-panel" id="v1-info-zelkot">
         </div>
       </div>
 
@@ -334,6 +417,18 @@
   <script>
     const state = {};
 
+    function showInfo(panelId, btn, optsId) {
+      const panel = document.getElementById(panelId);
+      const isOpen = panel.classList.contains('visible');
+      // zamknij wszystkie panele w tej grupie
+      document.querySelectorAll('#' + optsId + ' ~ .info-panel').forEach(p => p.classList.remove('visible'));
+      document.querySelectorAll('#' + optsId + ' button').forEach(b => b.classList.remove('active'));
+      if (!isOpen) {
+        panel.classList.add('visible');
+        btn.classList.add('active');
+      }
+    }
+
     function setOpts(viewerId, key) {
       const el = document.getElementById(viewerId + '-opts-' + key);
       // ukryj wszystkie opcje tego viewera
@@ -343,6 +438,8 @@
 
     function hideOpts(viewerId) {
       document.querySelectorAll('[id^="' + viewerId + '-opts-"]').forEach(d => d.classList.remove('visible'));
+      document.querySelectorAll('[id^="' + viewerId + '-info-"]').forEach(d => d.classList.remove('visible'));
+      document.querySelectorAll('[id^="' + viewerId + '-opt-"]').forEach(b => b.classList.remove('active'));
     }
 
     function reset(viewerId) {
