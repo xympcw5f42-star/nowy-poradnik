@@ -115,12 +115,8 @@
 
     .image-stack img.visible { opacity: 1; }
 
-    /* v1 – kolorowe strefy, wzmocnione nasycenie */
-    #viewer1 .image-stack img.visible:not(.img-plain) {
-      filter: saturate(6) contrast(1.3);
-    }
-
-    /* v2 – czarne linie → teal */
+    /* v1, v2 – czarne linie → teal */
+    #viewer1 .image-stack img.visible:not(.img-plain),
     #viewer2 .image-stack img.visible:not(.img-plain) {
       filter: invert(1) sepia(1) hue-rotate(145deg) saturate(6) contrast(1.2);
       mix-blend-mode: screen;
