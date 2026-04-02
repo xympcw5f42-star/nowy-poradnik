@@ -101,7 +101,7 @@
       aspect-ratio: 1330 / 870;
       border-radius: 10px;
       overflow: hidden;
-      background: #f4f8fa;
+      background: #fff;
     }
 
     .image-stack img {
@@ -115,6 +115,11 @@
     }
 
     .image-stack img.visible { opacity: 1; }
+
+    /* v1 – strefa na białym tle: multiply sprawia że białe tło znika, zostaje tylko zaznaczona strefa */
+    #viewer1 .image-stack img.visible:not(.img-plain) {
+      mix-blend-mode: multiply;
+    }
 
     /* v3 – placeholder */
     .viewer-placeholder {
@@ -235,6 +240,9 @@
   <script>
     const state = {};
 
+    // v1 używa multiply – baza musi zostać widoczna żeby białe tło działało jako "przeźroczyste"
+    const keepBase = new Set(['v1']);
+
     function toggle(viewerId, key, btn) {
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
       const plain = document.getElementById(viewerId + '-img-plain');
@@ -245,12 +253,10 @@
       }
 
       if (s.activeKey === key) {
-        // powrót do bazy
-        plain.classList.add('visible');
+        if (!keepBase.has(viewerId)) plain.classList.add('visible');
         state[viewerId] = { activeKey: null, activeBtn: null };
       } else {
-        // schowaj bazę, pokaż strefę
-        plain.classList.remove('visible');
+        if (!keepBase.has(viewerId)) plain.classList.remove('visible');
         document.getElementById(viewerId + '-img-' + key).classList.add('visible');
         btn.classList.add('active');
         state[viewerId] = { activeKey: key, activeBtn: btn };
