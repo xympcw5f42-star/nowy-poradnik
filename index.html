@@ -48,6 +48,41 @@
       height: 100%;
       object-fit: contain;
     }
+
+    .stack-with-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .stack-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .stack-buttons button {
+      padding: 8px 14px;
+      border: 2px solid #4a90d9;
+      background: #fff;
+      color: #4a90d9;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .stack-buttons button.active {
+      background: #4a90d9;
+      color: #fff;
+    }
+
+    .stack-buttons button:hover {
+      background: #4a90d9;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -65,6 +100,30 @@
       <img src="https://i.imgur.com/bv6kaNx.png" alt="Grafika 3">
       <img src="https://i.imgur.com/AwdGlVH.png" alt="Grafika 4">
     </div>
+
+    <div class="stack-with-buttons">
+      <div class="overlapping-stack" id="interactive-stack">
+        <img id="img1" src="https://i.imgur.com/YZvIcxq.png" alt="Grafika 1">
+        <img id="img2" src="https://i.imgur.com/Je1ti97.png" alt="Grafika 2">
+        <img id="img3" src="https://i.imgur.com/bv6kaNx.png" alt="Grafika 3">
+        <img id="img4" src="https://i.imgur.com/AwdGlVH.png" alt="Grafika 4">
+      </div>
+      <div class="stack-buttons">
+        <button class="active" onclick="toggleLayer('img1', this)">Grafika 1</button>
+        <button class="active" onclick="toggleLayer('img2', this)">Grafika 2</button>
+        <button class="active" onclick="toggleLayer('img3', this)">Grafika 3</button>
+        <button class="active" onclick="toggleLayer('img4', this)">Grafika 4</button>
+      </div>
+    </div>
   </div>
+
+  <script>
+    function toggleLayer(id, btn) {
+      const img = document.getElementById(id);
+      const visible = img.style.display !== 'none';
+      img.style.display = visible ? 'none' : '';
+      btn.classList.toggle('active', !visible);
+    }
+  </script>
 </body>
 </html>
