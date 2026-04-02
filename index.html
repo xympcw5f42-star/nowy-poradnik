@@ -3,37 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nowy Poradnik</title>
+  <title>Poradnik Malowania Jachtów</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: #eaf0f4;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #1a2e3b;
       min-height: 100vh;
-      padding: 40px 20px;
-      gap: 60px;
-    }
-    .graphic {
-      width: 100%;
-      max-width: 1060px;
     }
 
-    /* ── Interaktywna żaglówka ── */
+    /* ── Header ── */
+    header {
+      background: linear-gradient(150deg, #0b3d52 0%, #186878 55%, #2a9d8f 100%);
+      padding: 64px 40px 80px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 48px;
+      background: #eaf0f4;
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    header p {
+      font-size: 1.05rem;
+      opacity: 0.82;
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── Main ── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 52px 24px 72px;
+    }
+
+    /* ── Viewers grid ── */
+    .viewers-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    @media (max-width: 1024px) {
+      .viewers-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .viewers-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── Viewer card ── */
     .boat-viewer {
-      width: 100%;
-      max-width: 1060px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px 20px 24px;
+      box-shadow: 0 4px 24px rgba(11, 61, 82, 0.10);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 24px;
+      gap: 16px;
     }
 
+    .viewer-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2a9d8f;
+      align-self: flex-start;
+      padding-left: 2px;
+    }
+
+    /* ── Image stack ── */
     .image-stack {
       position: relative;
       width: 100%;
       aspect-ratio: 1330 / 870;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f4f8fa;
     }
 
     .image-stack img {
@@ -45,315 +113,134 @@
       transition: opacity 0.3s ease;
     }
 
-    .image-stack img.visible {
-      opacity: 1;
-    }
+    .image-stack img.visible { opacity: 1; }
 
-    /* v1 – kolorowe strefy na białym tle, wzmocniony kolor */
-    .image-stack img.visible:not(.img-plain) {
+    /* v1 – kolorowe strefy, wzmocnione nasycenie */
+    #viewer1 .image-stack img.visible:not(.img-plain) {
       filter: saturate(6) contrast(1.3);
     }
 
-    /* v2 – czarne linie: invert → teal via sepia+hue-rotate, screen usuwa czarne tło */
+    /* v2 – czarne linie → teal */
     #viewer2 .image-stack img.visible:not(.img-plain) {
       filter: invert(1) sepia(1) hue-rotate(145deg) saturate(6) contrast(1.2);
       mix-blend-mode: screen;
     }
 
-    /* ── Dwa widgety obok siebie ── */
-    .viewers-row {
+    /* v3 – placeholder */
+    .viewer-placeholder {
       width: 100%;
-      max-width: 1060px;
+      aspect-ratio: 1330 / 870;
+      border-radius: 10px;
+      border: 2px dashed #b8cdd8;
+      background: #f4f8fa;
       display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
+      gap: 10px;
+      color: #8aa8b8;
     }
 
-    .viewers-row .boat-viewer {
-      flex: 1 1 420px;
-      max-width: 500px;
+    .viewer-placeholder svg {
+      opacity: 0.4;
     }
 
+    .viewer-placeholder span {
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Buttons ── */
     .buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 12px;
+      gap: 8px;
     }
 
     .buttons button {
-      padding: 10px 22px;
+      padding: 8px 16px;
       border: 2px solid #2a9d8f;
       background: #fff;
       color: #2a9d8f;
-      font-size: 15px;
+      font-size: 13px;
       font-family: inherit;
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
     }
 
-    .buttons button:hover {
-      background: #e8f7f5;
-    }
+    .buttons button:hover:not(:disabled) { background: #e8f7f5; }
+    .buttons button.active { background: #2a9d8f; color: #fff; }
 
-    .buttons button.active {
-      background: #2a9d8f;
-      color: #fff;
+    .buttons button:disabled {
+      border-color: #c5d5df;
+      color: #b0c4ce;
+      cursor: default;
     }
   </style>
 </head>
 <body>
-  <div class="graphic">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 560"
-         fill="none" stroke-linecap="round" stroke-linejoin="round">
 
-      <!-- ============================
-           MAIN HULL OUTER BOUNDARY
-           (stern=left, bow=right)
-           ============================ -->
-      <path d="
-        M 93 213
-        C 93 196, 103 176, 120 163
-        C 136 150, 160 138, 185 132
-        L 450 129
-        C 468 129, 483 137, 492 151
-        C 498 161, 501 173, 502 186
-        L 504 195
-        C 545 192, 612 191, 688 196
-        C 768 202, 862 216, 938 242
-        C 966 254, 985 272, 993 293
-        C 998 308, 996 323, 987 339
-        C 971 362, 940 379, 895 392
-        C 830 408, 740 417, 628 422
-        C 506 427, 375 428, 263 423
-        C 174 419, 112 411, 93 403
-        Z
-      " fill="white" stroke="#1e1e1e" stroke-width="2.5"/>
+  <header>
+    <h1>Poradnik malowania jachtów</h1>
+    <p>Interaktywny przewodnik po strefach kadłuba i odpowiednich systemach malarskich</p>
+  </header>
 
-      <!-- Stern transom (left vertical edge) -->
-      <line x1="93" y1="213" x2="93" y2="403" stroke="#1e1e1e" stroke-width="2.5"/>
+  <main>
+    <div class="viewers-row">
 
-      <!-- ============================
-           CABIN / WHEELHOUSE
-           ============================ -->
-      <!-- Cabin body (walls + roof, inner shape) -->
-      <path d="
-        M 118 165
-        C 112 178, 108 193, 108 208
-        L 108 214
-        L 505 214
-        L 505 195
-        L 504 186
-        C 501 173, 498 161, 492 151
-        C 483 137, 468 129, 450 129
-        L 185 132
-        C 160 138, 136 150, 118 165
-        Z
-      " fill="white" stroke="#1e1e1e" stroke-width="1.8"/>
-
-      <!-- Cabin deck line (bottom edge of cabin above hull) -->
-      <line x1="108" y1="214" x2="505" y2="214" stroke="#1e1e1e" stroke-width="1.8"/>
-
-      <!-- Cabin roof flat line -->
-      <line x1="185" y1="132" x2="450" y2="129" stroke="#1e1e1e" stroke-width="1.5"/>
-
-      <!-- Front windshield (angled face of cabin) -->
-      <path d="
-        M 453 133
-        C 468 134, 482 141, 491 153
-        C 497 162, 501 173, 502 186
-        L 504 214
-        L 452 214
-        Z
-      " fill="white" stroke="#444" stroke-width="1.5"/>
-
-      <!-- Center cabin window -->
-      <rect x="300" y="142" width="138" height="58" rx="5"
-            fill="white" stroke="#444" stroke-width="1.5"/>
-      <line x1="369" y1="142" x2="369" y2="200" stroke="#444" stroke-width="1"/>
-
-      <!-- Rear cabin window -->
-      <rect x="158" y="142" width="128" height="58" rx="5"
-            fill="white" stroke="#444" stroke-width="1.5"/>
-      <line x1="222" y1="142" x2="222" y2="200" stroke="#444" stroke-width="1"/>
-
-      <!-- ============================
-           PORTHOLE (aft hull side)
-           ============================ -->
-      <circle cx="115" cy="256" r="22" fill="white" stroke="#444" stroke-width="1.8"/>
-      <circle cx="115" cy="256" r="15" fill="white" stroke="#666" stroke-width="1"/>
-      <line x1="100" y1="256" x2="130" y2="256" stroke="#888" stroke-width="0.7"/>
-      <line x1="115" y1="241" x2="115" y2="271" stroke="#888" stroke-width="0.7"/>
-
-      <!-- ============================
-           MAST / RADAR ARCH
-           ============================ -->
-      <line x1="322" y1="129" x2="322" y2="86" stroke="#333" stroke-width="2"/>
-      <path d="M 322 86 C 330 80, 368 80, 378 86" stroke="#333" stroke-width="2" fill="none"/>
-      <line x1="378" y1="86" x2="378" y2="129" stroke="#333" stroke-width="2"/>
-      <!-- Radar / equipment box -->
-      <rect x="314" y="74" width="20" height="13" rx="3"
-            fill="white" stroke="#333" stroke-width="1.5"/>
-      <!-- Small antenna -->
-      <line x1="350" y1="80" x2="350" y2="58" stroke="#333" stroke-width="1.2"/>
-      <line x1="342" y1="63" x2="358" y2="63" stroke="#333" stroke-width="1"/>
-
-      <!-- ============================
-           OPEN DECK RAILING
-           ============================ -->
-      <!-- Upper handrail -->
-      <path d="M 505 194 C 575 190, 668 192, 765 203
-               C 856 213, 942 236, 980 268"
-            stroke="#333" stroke-width="1.5" fill="none"/>
-      <!-- Lower rail -->
-      <path d="M 505 210 C 575 206, 668 208, 765 219
-               C 856 229, 942 252, 977 282"
-            stroke="#333" stroke-width="1.2" fill="none"/>
-      <!-- Stanchions -->
-      <line x1="532" y1="192" x2="532" y2="208" stroke="#333" stroke-width="1.2"/>
-      <line x1="592" y1="191" x2="592" y2="207" stroke="#333" stroke-width="1.2"/>
-      <line x1="660" y1="193" x2="660" y2="209" stroke="#333" stroke-width="1.2"/>
-      <line x1="732" y1="198" x2="732" y2="215" stroke="#333" stroke-width="1.2"/>
-      <line x1="810" y1="207" x2="810" y2="224" stroke="#333" stroke-width="1.2"/>
-      <line x1="882" y1="220" x2="882" y2="238" stroke="#333" stroke-width="1.2"/>
-      <line x1="945" y1="237" x2="945" y2="256" stroke="#333" stroke-width="1.2"/>
-
-      <!-- ============================
-           BOW PULPIT
-           ============================ -->
-      <path d="M 980 268 C 993 282, 998 296, 993 310
-               C 988 324, 978 335, 966 342"
-            stroke="#333" stroke-width="1.5" fill="none"/>
-      <!-- Pulpit lower bar -->
-      <path d="M 977 282 C 988 294, 991 306, 987 318"
-            stroke="#333" stroke-width="1" fill="none"/>
-
-      <!-- ============================
-           STERN DETAILS
-           ============================ -->
-      <!-- Stern railing (above cabin roof at aft end) -->
-      <line x1="93" y1="213" x2="93" y2="170" stroke="#444" stroke-width="1.5"/>
-      <line x1="93" y1="170" x2="118" y2="162" stroke="#444" stroke-width="1.5"/>
-      <line x1="93" y1="192" x2="112" y2="185" stroke="#444" stroke-width="1"/>
-
-      <!-- Swim platform -->
-      <path d="M 93 400 L 52 408 L 52 428 L 93 424"
-            fill="white" stroke="#444" stroke-width="1.5"/>
-
-      <!-- Step on transom -->
-      <line x1="93" y1="360" x2="76" y2="365" stroke="#555" stroke-width="1"/>
-      <line x1="93" y1="375" x2="72" y2="381" stroke="#555" stroke-width="1"/>
-
-      <!-- ============================
-           PROPELLER & SHAFT
-           ============================ -->
-      <!-- Shaft strut -->
-      <path d="M 93 392 C 78 396, 65 398, 50 400"
-            stroke="#555" stroke-width="2.5" fill="none"/>
-      <!-- Hub -->
-      <circle cx="44" cy="401" r="9" fill="white" stroke="#333" stroke-width="2"/>
-      <!-- Blade top -->
-      <path d="M 44 392 C 38 378, 30 362, 27 350 C 24 339, 33 334, 40 340
-               C 46 346, 49 364, 44 392 Z"
-            fill="white" stroke="#333" stroke-width="1.5"/>
-      <!-- Blade right -->
-      <path d="M 53 401 C 67 394, 83 390, 96 392 C 107 394, 108 403, 99 410
-               C 90 416, 72 418, 53 401 Z"
-            fill="white" stroke="#333" stroke-width="1.5"/>
-      <!-- Blade bottom -->
-      <path d="M 44 410 C 38 424, 30 440, 27 452 C 24 462, 33 466, 40 460
-               C 46 454, 49 436, 44 410 Z"
-            fill="white" stroke="#333" stroke-width="1.5"/>
-
-      <!-- ============================
-           RUDDER
-           ============================ -->
-      <path d="M 93 365 L 93 448 L 68 470 L 62 462 L 82 443 L 80 365 Z"
-            fill="white" stroke="#333" stroke-width="1.5"/>
-
-      <!-- ============================
-           KEEL / SKEG
-           ============================ -->
-      <path d="
-        M 152 420
-        C 185 432, 255 448, 360 452
-        C 440 454, 520 450, 558 442
-        L 558 422
-        C 520 428, 440 430, 360 428
-        C 255 424, 185 422, 152 420
-        Z
-      " fill="white" stroke="#333" stroke-width="1.5"/>
-
-      <!-- ============================
-           CHINE LINE (hull side/bottom boundary)
-           ============================ -->
-      <path d="M 93 360 C 180 366, 360 374, 580 377
-               C 740 379, 880 370, 962 352"
-            stroke="#888" stroke-width="1" fill="none" stroke-dasharray="6 4"/>
-
-      <!-- ============================
-           WATERLINE
-           ============================ -->
-      <line x1="40" y1="310" x2="1015" y2="310"
-            stroke="#bbb" stroke-width="1" stroke-dasharray="8 6"/>
-
-      <!-- ============================
-           SMALL DETAILS
-           ============================ -->
-      <!-- Cleat on open deck -->
-      <rect x="540" y="208" width="14" height="7" rx="2"
-            fill="white" stroke="#555" stroke-width="1"/>
-      <rect x="730" y="216" width="14" height="7" rx="2"
-            fill="white" stroke="#555" stroke-width="1"/>
-
-      <!-- Bow anchor fitting -->
-      <circle cx="970" cy="288" r="5" fill="white" stroke="#555" stroke-width="1.2"/>
-      <line x1="968" y1="293" x2="955" y2="310" stroke="#555" stroke-width="1"/>
-      <line x1="953" y1="313" x2="943" y2="310" stroke="#555" stroke-width="1"/>
-      <line x1="953" y1="313" x2="957" y2="320" stroke="#555" stroke-width="1"/>
-
-      <!-- Cabin roof edge detail -->
-      <line x1="118" y1="165" x2="118" y2="214" stroke="#555" stroke-width="1"/>
-
-    </svg>
-  </div>
-
-  <!-- ── Dwa interaktywne widgety obok siebie ── -->
-  <div class="viewers-row">
-
-    <!-- Widgety 1 -->
-    <div class="boat-viewer">
-      <div class="image-stack">
-        <img id="v1-img-plain"  src="https://i.imgur.com/2JDSPhq.png" alt="żaglówka" class="visible img-plain">
-        <img id="v1-img-burta"  src="https://i.imgur.com/FH8XQsU.png" alt="nad linią wody – burta">
-        <img id="v1-img-poklad" src="https://i.imgur.com/udjBcSO.png" alt="nad linią wody – pokład">
-        <img id="v1-img-dno"    src="https://i.imgur.com/x6tZuiC.png" alt="pod linią wody">
+      <!-- Viewer 1 -->
+      <div class="boat-viewer" id="viewer1">
+        <span class="viewer-title">Jacht motorowy</span>
+        <div class="image-stack">
+          <img id="v1-img-plain"  src="https://i.imgur.com/2JDSPhq.png" alt="żaglówka" class="visible img-plain">
+          <img id="v1-img-burta"  src="https://i.imgur.com/FH8XQsU.png" alt="nad linią wody – burta">
+          <img id="v1-img-poklad" src="https://i.imgur.com/udjBcSO.png" alt="nad linią wody – pokład">
+          <img id="v1-img-dno"    src="https://i.imgur.com/x6tZuiC.png" alt="pod linią wody">
+        </div>
+        <div class="buttons">
+          <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
+          <button onclick="toggle('v1', 'poklad', this)">nad linią wody pokład</button>
+          <button onclick="toggle('v1', 'dno',    this)">pod linią wody</button>
+        </div>
       </div>
-      <div class="buttons">
-        <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
-        <button onclick="toggle('v1', 'poklad', this)">nad linią wody pokład</button>
-        <button onclick="toggle('v1', 'dno',    this)">pod linią wody</button>
+
+      <!-- Viewer 2 -->
+      <div class="boat-viewer" id="viewer2">
+        <span class="viewer-title">Jacht żaglowy</span>
+        <div class="image-stack">
+          <img id="v2-img-plain"  src="https://i.imgur.com/YZvIcxq.png" alt="żaglówka" class="visible img-plain">
+          <img id="v2-img-burta"  src="https://i.imgur.com/AwdGlVH.png" alt="nad linią wody – burta">
+          <img id="v2-img-poklad" src="https://i.imgur.com/Je1ti97.png" alt="nad linią wody – pokład">
+          <img id="v2-img-dno"    src="https://i.imgur.com/bv6kaNx.png" alt="pod linią wody">
+        </div>
+        <div class="buttons">
+          <button onclick="toggle('v2', 'burta',  this)">nad linią wody burty</button>
+          <button onclick="toggle('v2', 'poklad', this)">nad linią wody pokład</button>
+          <button onclick="toggle('v2', 'dno',    this)">pod linią wody</button>
+        </div>
       </div>
+
+      <!-- Viewer 3 — placeholder -->
+      <div class="boat-viewer" id="viewer3">
+        <span class="viewer-title">Widok 3</span>
+        <div class="viewer-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2a9d8f" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M12 8v8M8 12h8"/>
+          </svg>
+          <span>Grafika zostanie dodana</span>
+        </div>
+        <div class="buttons">
+          <button disabled>nad linią wody burty</button>
+          <button disabled>nad linią wody pokład</button>
+          <button disabled>pod linią wody</button>
+        </div>
+      </div>
+
     </div>
-
-    <!-- Widget 2 -->
-    <div class="boat-viewer" id="viewer2">
-      <div class="image-stack">
-        <img id="v2-img-plain"  src="https://i.imgur.com/YZvIcxq.png" alt="żaglówka" class="visible img-plain">
-        <img id="v2-img-burta"  src="https://i.imgur.com/AwdGlVH.png" alt="nad linią wody – burta">
-        <img id="v2-img-poklad" src="https://i.imgur.com/Je1ti97.png" alt="nad linią wody – pokład">
-        <img id="v2-img-dno"    src="https://i.imgur.com/bv6kaNx.png" alt="pod linią wody">
-      </div>
-      <div class="buttons">
-        <button onclick="toggle('v2', 'burta',  this)">nad linią wody burty</button>
-        <button onclick="toggle('v2', 'poklad', this)">nad linią wody pokład</button>
-        <button onclick="toggle('v2', 'dno',    this)">pod linią wody</button>
-      </div>
-    </div>
-
-  </div>
+  </main>
 
   <script>
     const state = {};
