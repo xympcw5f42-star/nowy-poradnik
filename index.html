@@ -61,11 +61,14 @@
     /* ── Viewers grid ── */
     .viewers-row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 28px;
     }
 
-    @media (max-width: 700px) {
+    @media (max-width: 900px) {
+      .viewers-row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
       .viewers-row { grid-template-columns: 1fr; }
     }
 
@@ -166,6 +169,38 @@
       color: #b0c4ce;
       cursor: default;
     }
+
+    .btn-reset {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid #b8cdd8;
+      background: #fff;
+      color: #7a9faf;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color 0.2s, color 0.2s, transform 0.3s;
+    }
+
+    .btn-reset:hover {
+      border-color: #2a9d8f;
+      color: #2a9d8f;
+    }
+
+    .btn-reset:active {
+      transform: rotate(360deg);
+    }
+
+    .buttons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
@@ -187,10 +222,18 @@
           <img id="v1-img-poklad" src="https://i.imgur.com/MGlzIqJ.png" alt="nad linią wody – pokład">
           <img id="v1-img-dno"    src="https://i.imgur.com/e43VPzo.png" alt="pod linią wody">
         </div>
-        <div class="buttons">
-          <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
-          <button onclick="toggle('v1', 'poklad', this)">nad linią wody pokład</button>
-          <button onclick="toggle('v1', 'dno',    this)">pod linią wody</button>
+        <div class="buttons-row">
+          <div class="buttons">
+            <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="toggle('v1', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="toggle('v1', 'dno',    this)">pod linią wody</button>
+          </div>
+          <button class="btn-reset" onclick="reset('v1')" title="Resetuj widok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -203,10 +246,18 @@
           <img id="v2-img-poklad" src="https://i.imgur.com/Je1ti97.png" alt="nad linią wody – pokład">
           <img id="v2-img-dno"    src="https://i.imgur.com/bv6kaNx.png" alt="pod linią wody">
         </div>
-        <div class="buttons">
-          <button onclick="toggle('v2', 'burta',  this)">nad linią wody burty</button>
-          <button onclick="toggle('v2', 'poklad', this)">nad linią wody pokład</button>
-          <button onclick="toggle('v2', 'dno',    this)">pod linią wody</button>
+        <div class="buttons-row">
+          <div class="buttons">
+            <button onclick="toggle('v2', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="toggle('v2', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="toggle('v2', 'dno',    this)">pod linią wody</button>
+          </div>
+          <button class="btn-reset" onclick="reset('v2')" title="Resetuj widok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -232,6 +283,15 @@
 
   <script>
     const state = {};
+
+    function reset(viewerId) {
+      const s = state[viewerId];
+      if (!s || !s.activeKey) return;
+      document.getElementById(viewerId + '-img-' + s.activeKey).classList.remove('visible');
+      if (s.activeBtn) s.activeBtn.classList.remove('active');
+      document.getElementById(viewerId + '-img-plain').classList.add('visible');
+      state[viewerId] = { activeKey: null, activeBtn: null };
+    }
 
     function toggle(viewerId, key, btn) {
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
