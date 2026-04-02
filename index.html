@@ -115,11 +115,9 @@
 
     .image-stack img.visible { opacity: 1; }
 
-    /* v1, v2 – czarne linie → teal */
-    #viewer1 .image-stack img.visible:not(.img-plain),
-    #viewer2 .image-stack img.visible:not(.img-plain) {
-      filter: invert(1) sepia(1) hue-rotate(145deg) saturate(6) contrast(1.2);
-      mix-blend-mode: screen;
+    /* v1, v2 – strefa pojawia się bez filtra */
+    .image-stack img.visible:not(.img-plain) {
+      /* brak filtra – obraz pokazuje się tak jak jest */
     }
 
     /* v3 – placeholder */
@@ -243,6 +241,7 @@
 
     function toggle(viewerId, key, btn) {
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
+      const plain = document.getElementById(viewerId + '-img-plain');
 
       if (s.activeKey) {
         document.getElementById(viewerId + '-img-' + s.activeKey).classList.remove('visible');
@@ -250,8 +249,12 @@
       }
 
       if (s.activeKey === key) {
+        // powrót do bazy
+        plain.classList.add('visible');
         state[viewerId] = { activeKey: null, activeBtn: null };
       } else {
+        // schowaj bazę, pokaż strefę
+        plain.classList.remove('visible');
         document.getElementById(viewerId + '-img-' + key).classList.add('visible');
         btn.classList.add('active');
         state[viewerId] = { activeKey: key, activeBtn: btn };
