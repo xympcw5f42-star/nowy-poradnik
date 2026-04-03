@@ -16,24 +16,27 @@
 
     /* ── Header ── */
     header {
-      background: linear-gradient(180deg, #cde8f7 0%, #ddf0fb 50%, #deeefa 100%);
+      background: linear-gradient(150deg, #0d2d5e 0%, #1a70b8 55%, #1a5fa8 100%);
+      padding: 48px 40px 80px;
       text-align: center;
-      color: #0d2d5e;
+      color: #fff;
       position: relative;
       overflow: hidden;
-      padding: 0 0 56px;
     }
 
-    .header-banner {
-      width: 100%;
-      max-height: 110px;
-      object-fit: cover;
-      object-position: center;
+    .header-logo {
       display: block;
+      margin: 0 auto 20px;
+      max-width: 340px;
+      width: 70%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.25);
     }
 
-    .header-content {
-      padding: 28px 40px 0;
+    .header-logo img {
+      width: 100%;
+      display: block;
     }
 
     header::after {
@@ -47,18 +50,18 @@
     }
 
     header h1 {
-      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-size: clamp(1.8rem, 4vw, 3rem);
       font-weight: 700;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      margin-bottom: 10px;
-      color: #0d2d5e;
+      margin-bottom: 14px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
 
     header p {
-      font-size: 1rem;
-      color: #2a5090;
-      max-width: 560px;
+      font-size: 1.05rem;
+      opacity: 0.82;
+      max-width: 580px;
       margin: 0 auto;
       line-height: 1.65;
     }
@@ -399,13 +402,11 @@
 <body>
 
   <header>
-    <a href="https://www.farbyjachtowe.pl" target="_blank">
-      <img class="header-banner" src="https://www.farbyjachtowe.pl/images/banners/cms%20baner.png" alt="farbyjachtowe.pl">
+    <a class="header-logo" href="https://www.farbyjachtowe.pl" target="_blank">
+      <img src="https://www.farbyjachtowe.pl/images/banners/cms%20baner.png" alt="farbyjachtowe.pl">
     </a>
-    <div class="header-content">
-      <h1>Poradnik malowania jachtów</h1>
-      <p>Interaktywny przewodnik po strefach kadłuba i odpowiednich systemach malarskich</p>
-    </div>
+    <h1>Poradnik malowania jachtów</h1>
+    <p>Interaktywny przewodnik po strefach kadłuba i odpowiednich systemach malarskich</p>
   </header>
 
   <main>
