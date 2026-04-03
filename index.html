@@ -624,6 +624,7 @@
         plain.classList.remove('visible');
         document.getElementById(viewerId + '-img-' + key).classList.add('visible');
         btn.classList.add('active');
+        hideOpts(viewerId);
         setOpts(viewerId, key);
         state[viewerId] = { activeKey: key, activeBtn: btn };
       }
