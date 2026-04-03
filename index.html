@@ -63,7 +63,6 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
-      transition: grid-template-columns 0.35s ease;
     }
 
     @media (max-width: 900px) {
@@ -84,18 +83,21 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+      will-change: transform, opacity;
     }
 
     .boat-viewer.dimming {
-      opacity: 0;
-      transform: scale(0.92);
+      opacity: 0.15;
+      transform: scale(0.95);
       pointer-events: none;
     }
 
     .boat-viewer.focused {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 56px rgba(11, 61, 82, 0.22);
+      transform: scale(1.06);
+      box-shadow: 0 20px 64px rgba(11, 61, 82, 0.28);
+      z-index: 10;
     }
 
     /* ── Viewer header (klikalny) ── */
@@ -513,44 +515,18 @@
 
     function focusViewer(viewerId) {
       const viewer = document.getElementById(viewerId);
-      const row = document.querySelector('.viewers-row');
       const all = document.querySelectorAll('.boat-viewer');
       if (viewer.classList.contains('focused')) return;
 
-      // faza 1: fade-out pozostałych
       all.forEach(v => {
-        if (v.id !== viewerId) v.classList.add('dimming');
+        if (v.id === viewerId) v.classList.add('focused');
+        else v.classList.add('dimming');
       });
-
-      // faza 2: po fade-out ukryj inne, powiększ siatkę, dodaj focused z reflow
-      setTimeout(() => {
-        all.forEach(v => {
-          if (v.id !== viewerId) {
-            v.style.display = 'none';
-            v.classList.remove('dimming');
-          }
-        });
-        row.style.gridTemplateColumns = '1fr';
-        // force reflow so transition from base → focused actually plays
-        void viewer.offsetWidth;
-        viewer.classList.add('focused');
-        window.scrollTo({ top: row.offsetTop - 24, behavior: 'smooth' });
-      }, 300);
     }
 
     function unfocus() {
-      const row = document.querySelector('.viewers-row');
-      const all = document.querySelectorAll('.boat-viewer');
-
-      // przywróć wszystkie karty
-      all.forEach(v => { v.style.display = ''; });
-
-      // odczekaj klatkę żeby display:'' zadziałało przed transition
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          row.style.gridTemplateColumns = '';
-          all.forEach(v => v.classList.remove('focused', 'dimming'));
-        });
+      document.querySelectorAll('.boat-viewer').forEach(v => {
+        v.classList.remove('focused', 'dimming');
       });
     }
 
