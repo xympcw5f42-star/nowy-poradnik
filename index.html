@@ -252,14 +252,25 @@
 
     .buttons-row {
       display: none;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 12px;
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .boat-viewer.focused .buttons-row {
       display: flex;
+    }
+
+    .step2-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0b3d52;
+      text-align: center;
+      letter-spacing: -0.01em;
+      margin: 0;
     }
 
     .boat-viewer:not(.focused) {
@@ -392,6 +403,7 @@
           <img id="v1-img-dno"    src="https://i.imgur.com/e43VPzo.png" alt="pod linią wody">
         </div>
         <div class="buttons-row">
+          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
           <div class="buttons">
             <button onclick="event.stopPropagation(); toggle('v1', 'burta',  this)">nad linią wody burty</button>
             <button onclick="event.stopPropagation(); toggle('v1', 'poklad', this)">nad linią wody pokład</button>
@@ -479,6 +491,7 @@
           <img id="v2-img-dno"    src="https://i.imgur.com/bv6kaNx.png" alt="pod linią wody">
         </div>
         <div class="buttons-row">
+          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
           <div class="buttons">
             <button onclick="event.stopPropagation(); toggle('v2', 'burta',  this)">nad linią wody burty</button>
             <button onclick="event.stopPropagation(); toggle('v2', 'poklad', this)">nad linią wody pokład</button>
@@ -510,6 +523,7 @@
           <img id="v3-img-dno"    src="https://i.imgur.com/CV4WhCt.png" alt="pod linią wody">
         </div>
         <div class="buttons-row">
+          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
           <div class="buttons">
             <button onclick="event.stopPropagation(); toggle('v3', 'burta',  this)">nad linią wody burty</button>
             <button onclick="event.stopPropagation(); toggle('v3', 'poklad', this)">nad linią wody pokład</button>
