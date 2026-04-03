@@ -89,17 +89,13 @@
 
     .boat-viewer.dimming {
       opacity: 0;
-      transform: scale(0.93);
+      transform: scale(0.92);
       pointer-events: none;
     }
 
     .boat-viewer.focused {
-      animation: slideForward 0.35s ease forwards;
-    }
-
-    @keyframes slideForward {
-      from { transform: scale(0.97); box-shadow: 0 4px 24px rgba(11,61,82,0.10); }
-      to   { transform: translateY(-4px) scale(1); box-shadow: 0 16px 56px rgba(11,61,82,0.20); }
+      transform: translateY(-6px);
+      box-shadow: 0 16px 56px rgba(11, 61, 82, 0.22);
     }
 
     /* ── Viewer header (klikalny) ── */
@@ -516,28 +512,28 @@
     const state = {};
 
     function focusViewer(viewerId) {
+      const viewer = document.getElementById(viewerId);
       const row = document.querySelector('.viewers-row');
       const all = document.querySelectorAll('.boat-viewer');
-      if (document.getElementById(viewerId).classList.contains('focused')) return;
+      if (viewer.classList.contains('focused')) return;
 
-      // faza 1: zacznij fade-out pozostałych + animacja focused
+      // faza 1: fade-out pozostałych
       all.forEach(v => {
-        if (v.id === viewerId) {
-          v.classList.add('focused');
-        } else {
-          v.classList.add('dimming');
-        }
+        if (v.id !== viewerId) v.classList.add('dimming');
       });
 
-      // faza 2: po zakończeniu transition ukryj i powiększ siatkę
+      // faza 2: po fade-out ukryj inne, powiększ siatkę, dodaj focused z reflow
       setTimeout(() => {
-        row.style.gridTemplateColumns = '1fr';
         all.forEach(v => {
-          if (!v.classList.contains('focused')) {
+          if (v.id !== viewerId) {
             v.style.display = 'none';
             v.classList.remove('dimming');
           }
         });
+        row.style.gridTemplateColumns = '1fr';
+        // force reflow so transition from base → focused actually plays
+        void viewer.offsetWidth;
+        viewer.classList.add('focused');
         window.scrollTo({ top: row.offsetTop - 24, behavior: 'smooth' });
       }, 300);
     }
