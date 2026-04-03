@@ -52,6 +52,15 @@
     }
 
     /* ── Main ── */
+    .step-heading {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #0b3d52;
+      text-align: center;
+      margin: 0 0 32px;
+      letter-spacing: -0.01em;
+    }
+
     main {
       max-width: 1400px;
       margin: 0 auto;
@@ -242,19 +251,15 @@
     }
 
     .buttons-row {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
     }
 
     .boat-viewer.focused .buttons-row {
-      opacity: 1;
-      pointer-events: auto;
+      display: flex;
     }
 
     .boat-viewer:not(.focused) {
@@ -367,12 +372,13 @@
   </header>
 
   <main>
+    <h2 class="step-heading">Krok 1 — Z czego wykonana jest twoja jednostka?</h2>
     <div class="viewers-row">
 
       <!-- Viewer 1 -->
       <div class="boat-viewer" id="viewer1" onclick="focusViewer(this.id)">
         <div class="viewer-header">
-          <span class="viewer-title">Jachty laminatowe</span>
+          <span class="viewer-title">Laminat</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
         <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
@@ -459,7 +465,7 @@
       <!-- Viewer 2 -->
       <div class="boat-viewer" id="viewer2" onclick="focusViewer(this.id)">
         <div class="viewer-header">
-          <span class="viewer-title">Jachty aluminiowe i stalowe</span>
+          <span class="viewer-title">Aluminium i stal</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
         <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
@@ -490,7 +496,7 @@
       <!-- Viewer 3 -->
       <div class="boat-viewer" id="viewer3" onclick="focusViewer(this.id)">
         <div class="viewer-header">
-          <span class="viewer-title">Jachty drewniane</span>
+          <span class="viewer-title">Drewno</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
         <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
