@@ -95,8 +95,7 @@
     }
 
     .boat-viewer.focused {
-      transform: scale(1.06);
-      box-shadow: 0 20px 64px rgba(11, 61, 82, 0.28);
+      box-shadow: 0 24px 72px rgba(11, 61, 82, 0.32);
       z-index: 10;
     }
 
@@ -518,15 +517,25 @@
       const all = document.querySelectorAll('.boat-viewer');
       if (viewer.classList.contains('focused')) return;
 
+      // oblicz przesunięcie do środka ekranu
+      const rect = viewer.getBoundingClientRect();
+      const dx = window.innerWidth  / 2 - (rect.left + rect.width  / 2);
+      const dy = window.innerHeight / 2 - (rect.top  + rect.height / 2);
+
       all.forEach(v => {
-        if (v.id === viewerId) v.classList.add('focused');
-        else v.classList.add('dimming');
+        if (v.id === viewerId) {
+          v.style.transform = `translate(${dx}px, ${dy}px) scale(1.12)`;
+          v.classList.add('focused');
+        } else {
+          v.classList.add('dimming');
+        }
       });
     }
 
     function unfocus() {
       document.querySelectorAll('.boat-viewer').forEach(v => {
         v.classList.remove('focused', 'dimming');
+        v.style.transform = '';
       });
     }
 
