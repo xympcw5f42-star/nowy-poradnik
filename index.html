@@ -73,9 +73,6 @@
       .viewers-row { grid-template-columns: 1fr; }
     }
 
-    .viewers-row.has-focus {
-      grid-template-columns: 1fr;
-    }
 
     /* ── Viewer card ── */
     .boat-viewer {
@@ -88,13 +85,6 @@
       align-items: center;
       gap: 16px;
       transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .boat-viewer.dimmed {
-      opacity: 0;
-      transform: scale(0.96);
-      pointer-events: none;
-      display: none;
     }
 
     .boat-viewer.focused {
@@ -518,24 +508,27 @@
     function focusViewer(viewerId) {
       const row = document.querySelector('.viewers-row');
       const all = document.querySelectorAll('.boat-viewer');
-      // jeśli już skupiony — nie rób nic (wróć przez btn-back)
       if (document.getElementById(viewerId).classList.contains('focused')) return;
-      row.classList.add('has-focus');
+      row.style.gridTemplateColumns = '1fr';
       all.forEach(v => {
         if (v.id === viewerId) {
+          v.style.display = '';
           v.classList.add('focused');
-          v.classList.remove('dimmed');
         } else {
-          v.classList.add('dimmed');
+          v.style.display = 'none';
           v.classList.remove('focused');
         }
       });
-      window.scrollTo({ top: document.querySelector('.viewers-row').offsetTop - 24, behavior: 'smooth' });
+      window.scrollTo({ top: row.offsetTop - 24, behavior: 'smooth' });
     }
 
     function unfocus() {
-      document.querySelector('.viewers-row').classList.remove('has-focus');
-      document.querySelectorAll('.boat-viewer').forEach(v => v.classList.remove('focused', 'dimmed'));
+      const row = document.querySelector('.viewers-row');
+      row.style.gridTemplateColumns = '';
+      document.querySelectorAll('.boat-viewer').forEach(v => {
+        v.style.display = '';
+        v.classList.remove('focused');
+      });
     }
 
     function showInfo(panelId, btn, optsId) {
