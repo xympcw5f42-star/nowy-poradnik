@@ -247,6 +247,18 @@
       justify-content: center;
       gap: 8px;
       flex-wrap: wrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .boat-viewer.focused .buttons-row {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .boat-viewer:not(.focused) {
+      cursor: pointer;
     }
 
     .zone-options {
@@ -358,12 +370,12 @@
     <div class="viewers-row">
 
       <!-- Viewer 1 -->
-      <div class="boat-viewer" id="viewer1">
-        <div class="viewer-header" onclick="focusViewer('viewer1')">
+      <div class="boat-viewer" id="viewer1" onclick="focusViewer(this.id)">
+        <div class="viewer-header">
           <span class="viewer-title">Jachty laminatowe</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
-        <button class="btn-back" onclick="unfocus()">
+        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Wróć do wyboru
         </button>
@@ -375,11 +387,11 @@
         </div>
         <div class="buttons-row">
           <div class="buttons">
-            <button onclick="toggle('v1', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="toggle('v1', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="toggle('v1', 'dno',    this)">pod linią wody</button>
+            <button onclick="event.stopPropagation(); toggle('v1', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="event.stopPropagation(); toggle('v1', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="event.stopPropagation(); toggle('v1', 'dno',    this)">pod linią wody</button>
           </div>
-          <button class="btn-reset" onclick="reset('v1')" title="Resetuj widok">
+          <button class="btn-reset" onclick="event.stopPropagation(); reset('v1')" title="Resetuj widok">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
@@ -388,8 +400,8 @@
         </div>
         <div class="zone-options" id="v1-opts-poklad">
           <span>Wybierz wariant:</span>
-          <button id="v1-opt-powloka" onclick="showInfo('v1-info-powloka', this, 'v1-opts-poklad')">Aplikacja na istniejącą powłokę</button>
-          <button id="v1-opt-zelkot"  onclick="showInfo('v1-info-zelkot',  this, 'v1-opts-poklad')">Aplikacja na żelkot</button>
+          <button id="v1-opt-powloka" onclick="event.stopPropagation(); showInfo('v1-info-powloka', this, 'v1-opts-poklad')">Aplikacja na istniejącą powłokę</button>
+          <button id="v1-opt-zelkot"  onclick="event.stopPropagation(); showInfo('v1-info-zelkot',  this, 'v1-opts-poklad')">Aplikacja na żelkot</button>
         </div>
 
         <div class="info-panel" id="v1-info-powloka">
@@ -445,12 +457,12 @@
       </div>
 
       <!-- Viewer 2 -->
-      <div class="boat-viewer" id="viewer2">
-        <div class="viewer-header" onclick="focusViewer('viewer2')">
+      <div class="boat-viewer" id="viewer2" onclick="focusViewer(this.id)">
+        <div class="viewer-header">
           <span class="viewer-title">Jachty aluminiowe i stalowe</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
-        <button class="btn-back" onclick="unfocus()">
+        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Wróć do wyboru
         </button>
@@ -462,11 +474,11 @@
         </div>
         <div class="buttons-row">
           <div class="buttons">
-            <button onclick="toggle('v2', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="toggle('v2', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="toggle('v2', 'dno',    this)">pod linią wody</button>
+            <button onclick="event.stopPropagation(); toggle('v2', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="event.stopPropagation(); toggle('v2', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="event.stopPropagation(); toggle('v2', 'dno',    this)">pod linią wody</button>
           </div>
-          <button class="btn-reset" onclick="reset('v2')" title="Resetuj widok">
+          <button class="btn-reset" onclick="event.stopPropagation(); reset('v2')" title="Resetuj widok">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
@@ -476,12 +488,12 @@
       </div>
 
       <!-- Viewer 3 -->
-      <div class="boat-viewer" id="viewer3">
-        <div class="viewer-header" onclick="focusViewer('viewer3')">
+      <div class="boat-viewer" id="viewer3" onclick="focusViewer(this.id)">
+        <div class="viewer-header">
           <span class="viewer-title">Jachty drewniane</span>
           <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
         </div>
-        <button class="btn-back" onclick="unfocus()">
+        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Wróć do wyboru
         </button>
@@ -493,11 +505,11 @@
         </div>
         <div class="buttons-row">
           <div class="buttons">
-            <button onclick="toggle('v3', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="toggle('v3', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="toggle('v3', 'dno',    this)">pod linią wody</button>
+            <button onclick="event.stopPropagation(); toggle('v3', 'burta',  this)">nad linią wody burty</button>
+            <button onclick="event.stopPropagation(); toggle('v3', 'poklad', this)">nad linią wody pokład</button>
+            <button onclick="event.stopPropagation(); toggle('v3', 'dno',    this)">pod linią wody</button>
           </div>
-          <button class="btn-reset" onclick="reset('v3')" title="Resetuj widok">
+          <button class="btn-reset" onclick="event.stopPropagation(); reset('v3')" title="Resetuj widok">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
@@ -517,7 +529,6 @@
       const all = document.querySelectorAll('.boat-viewer');
       if (viewer.classList.contains('focused')) return;
 
-      // oblicz przesunięcie do środka ekranu
       const rect = viewer.getBoundingClientRect();
       const dx = window.innerWidth  / 2 - (rect.left + rect.width  / 2);
       const dy = window.innerHeight / 2 - (rect.top  + rect.height / 2);
@@ -537,6 +548,8 @@
         v.classList.remove('focused', 'dimming');
         v.style.transform = '';
       });
+      // zresetuj wszystkie widgety
+      ['v1','v2','v3'].forEach(vid => reset(vid));
     }
 
     function showInfo(panelId, btn, optsId) {
@@ -575,7 +588,6 @@
     }
 
     function toggle(viewerId, key, btn) {
-      focusViewer('viewer' + viewerId.replace('v', ''));
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
       const plain = document.getElementById(viewerId + '-img-plain');
 
