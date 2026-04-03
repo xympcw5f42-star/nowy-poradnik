@@ -594,7 +594,7 @@
     }
 
     function toggle(viewerId, key, btn) {
-      focusViewer(viewerId);
+      focusViewer('viewer' + viewerId.replace('v', ''));
       const s = state[viewerId] || { activeKey: null, activeBtn: null };
       const plain = document.getElementById(viewerId + '-img-plain');
 
