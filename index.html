@@ -63,6 +63,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 28px;
+      transition: grid-template-columns 0.35s ease;
     }
 
     @media (max-width: 900px) {
@@ -70,6 +71,10 @@
     }
     @media (max-width: 600px) {
       .viewers-row { grid-template-columns: 1fr; }
+    }
+
+    .viewers-row.has-focus {
+      grid-template-columns: 1fr;
     }
 
     /* ── Viewer card ── */
@@ -82,17 +87,62 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .viewer-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #2a9d8f;
-      align-self: flex-start;
-      padding-left: 2px;
+    .boat-viewer.dimmed {
+      opacity: 0;
+      transform: scale(0.96);
+      pointer-events: none;
+      display: none;
     }
+
+    .boat-viewer.focused {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 48px rgba(11, 61, 82, 0.18);
+    }
+
+    /* ── Viewer header (klikalny) ── */
+    .viewer-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .viewer-header:hover .viewer-title {
+      color: #1a7a6e;
+    }
+
+    .viewer-expand-icon {
+      color: #2a9d8f;
+      opacity: 0.6;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .viewer-header:hover .viewer-expand-icon { opacity: 1; }
+    .boat-viewer.focused .viewer-expand-icon { display: none; }
+
+    /* ── Przycisk wróć ── */
+    .btn-back {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: #2a9d8f;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-back:hover { color: #1a7a6e; }
+    .boat-viewer.focused .btn-back { display: flex; }
 
     /* ── Image stack ── */
     .image-stack {
@@ -312,7 +362,14 @@
 
       <!-- Viewer 1 -->
       <div class="boat-viewer" id="viewer1">
-        <span class="viewer-title">Jachty laminatowe</span>
+        <div class="viewer-header" onclick="focusViewer('viewer1')">
+          <span class="viewer-title">Jachty laminatowe</span>
+          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+        <button class="btn-back" onclick="unfocus()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Wróć do wyboru
+        </button>
         <div class="image-stack">
           <img id="v1-img-plain"  src="https://i.imgur.com/plGSk2b.png" alt="żaglówka" class="visible img-plain">
           <img id="v1-img-burta"  src="https://i.imgur.com/oSd7uNq.png" alt="nad linią wody – burta">
@@ -392,7 +449,14 @@
 
       <!-- Viewer 2 -->
       <div class="boat-viewer" id="viewer2">
-        <span class="viewer-title">Jachty aluminiowe i stalowe</span>
+        <div class="viewer-header" onclick="focusViewer('viewer2')">
+          <span class="viewer-title">Jachty aluminiowe i stalowe</span>
+          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+        <button class="btn-back" onclick="unfocus()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Wróć do wyboru
+        </button>
         <div class="image-stack">
           <img id="v2-img-plain"  src="https://i.imgur.com/YZvIcxq.png" alt="żaglówka" class="visible img-plain">
           <img id="v2-img-burta"  src="https://i.imgur.com/AwdGlVH.png" alt="nad linią wody – burta">
@@ -416,7 +480,14 @@
 
       <!-- Viewer 3 -->
       <div class="boat-viewer" id="viewer3">
-        <span class="viewer-title">Jachty drewniane</span>
+        <div class="viewer-header" onclick="focusViewer('viewer3')">
+          <span class="viewer-title">Jachty drewniane</span>
+          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+        <button class="btn-back" onclick="unfocus()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Wróć do wyboru
+        </button>
         <div class="image-stack">
           <img id="v3-img-plain"  src="https://i.imgur.com/P1puyRU.png" alt="jacht" class="visible img-plain">
           <img id="v3-img-burta"  src="https://i.imgur.com/Uk50rV6.png" alt="nad linią wody – burta">
@@ -443,6 +514,29 @@
 
   <script>
     const state = {};
+
+    function focusViewer(viewerId) {
+      const row = document.querySelector('.viewers-row');
+      const all = document.querySelectorAll('.boat-viewer');
+      // jeśli już skupiony — nie rób nic (wróć przez btn-back)
+      if (document.getElementById(viewerId).classList.contains('focused')) return;
+      row.classList.add('has-focus');
+      all.forEach(v => {
+        if (v.id === viewerId) {
+          v.classList.add('focused');
+          v.classList.remove('dimmed');
+        } else {
+          v.classList.add('dimmed');
+          v.classList.remove('focused');
+        }
+      });
+      window.scrollTo({ top: document.querySelector('.viewers-row').offsetTop - 24, behavior: 'smooth' });
+    }
+
+    function unfocus() {
+      document.querySelector('.viewers-row').classList.remove('has-focus');
+      document.querySelectorAll('.boat-viewer').forEach(v => v.classList.remove('focused', 'dimmed'));
+    }
 
     function showInfo(panelId, btn, optsId) {
       const panel = document.getElementById(panelId);
