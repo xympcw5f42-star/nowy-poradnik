@@ -405,6 +405,187 @@
       border-top: 1px solid #c0d5ee;
       margin: 2px 0;
     }
+
+    /* ── Shopping list ── */
+    .list-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 58px;
+      height: 58px;
+      background: #f7941d;
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(247,148,29,0.45);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      z-index: 1001;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .list-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(247,148,29,0.55); }
+
+    .list-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #0d2d5e;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .list-badge.visible { display: flex; }
+
+    .list-panel {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 320px;
+      max-height: 75vh;
+      background: #fff;
+      box-shadow: -4px 0 40px rgba(13,45,94,0.18);
+      border-radius: 16px 16px 0 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.35s ease;
+    }
+    .list-panel.open { transform: translateY(0); }
+
+    .list-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 18px 12px;
+      border-bottom: 1.5px solid #e8f0fb;
+      flex-shrink: 0;
+    }
+    .list-panel-header h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0d2d5e;
+      margin: 0;
+    }
+    .list-panel-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #7a98c0;
+      font-size: 20px;
+      line-height: 1;
+      padding: 0 4px;
+    }
+    .list-panel-close:hover { color: #0d2d5e; }
+
+    .list-items {
+      overflow-y: auto;
+      flex: 1;
+      padding: 10px 0;
+    }
+    .list-empty {
+      text-align: center;
+      color: #7a98c0;
+      font-size: 13px;
+      padding: 32px 16px;
+    }
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      border-bottom: 1px solid #f0f7ff;
+    }
+    .list-item img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 4px;
+      background: #f5f8fd;
+    }
+    .list-item-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0d2d5e;
+      flex: 1;
+      line-height: 1.35;
+    }
+    .list-item-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #b0c8e8;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0 2px;
+      flex-shrink: 0;
+    }
+    .list-item-remove:hover { color: #e05c5c; }
+
+    .list-panel-footer {
+      padding: 12px 18px;
+      border-top: 1.5px solid #e8f0fb;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .list-btn-shop {
+      flex: 1;
+      padding: 10px;
+      background: #f7941d;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .list-btn-shop:hover { background: #e07d0a; }
+    .list-btn-clear {
+      padding: 10px 12px;
+      background: none;
+      border: 1.5px solid #c0d5ee;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #7a98c0;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .list-btn-clear:hover { border-color: #e05c5c; color: #e05c5c; }
+
+    .add-to-list-btn {
+      margin-left: auto;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      background: none;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      transition: background 0.15s, color 0.15s;
+      padding: 0;
+    }
+    .add-to-list-btn:hover { background: rgba(247,148,29,0.15); border-color: #f7941d; color: #f7941d; }
+    .add-to-list-btn.added { background: #f7941d; border-color: #f7941d; color: #fff; }
   </style>
 </head>
 <body>
@@ -1040,6 +1221,111 @@
         state[viewerId] = { activeKey: key, activeBtn: btn };
       }
     }
+  </script>
+
+  <!-- Shopping list panel -->
+  <button class="list-fab" id="listFab" onclick="toggleListPanel()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <span class="list-badge" id="listBadge">0</span>
+  </button>
+
+  <div class="list-panel" id="listPanel">
+    <div class="list-panel-header">
+      <h3>Lista zakupów</h3>
+      <button class="list-panel-close" onclick="toggleListPanel()">×</button>
+    </div>
+    <div class="list-items" id="listItems">
+      <p class="list-empty">Brak produktów. Kliknij <strong>+</strong> przy produkcie aby dodać.</p>
+    </div>
+    <div class="list-panel-footer">
+      <a class="list-btn-shop" href="https://www.farbyjachtowe.pl/koszyk.html" target="_blank">Przejdź do sklepu →</a>
+      <button class="list-btn-clear" onclick="clearList()">Wyczyść</button>
+    </div>
+  </div>
+
+  <script>
+    let shoppingList = JSON.parse(localStorage.getItem('fjList') || '[]');
+
+    function toggleListPanel() {
+      document.getElementById('listPanel').classList.toggle('open');
+    }
+
+    function renderList() {
+      const container = document.getElementById('listItems');
+      const badge = document.getElementById('listBadge');
+      badge.textContent = shoppingList.length;
+      badge.classList.toggle('visible', shoppingList.length > 0);
+
+      if (shoppingList.length === 0) {
+        container.innerHTML = '<p class="list-empty">Brak produktów. Kliknij <strong>+</strong> przy produkcie aby dodać.</p>';
+        return;
+      }
+      container.innerHTML = shoppingList.map(p => `
+        <div class="list-item">
+          ${p.img ? `<img src="${p.img}" alt="">` : ''}
+          <a class="list-item-name" href="${p.url}" target="_blank">${p.name}</a>
+          <button class="list-item-remove" onclick="removeFromList('${p.url}')" title="Usuń">×</button>
+        </div>
+      `).join('');
+    }
+
+    function addToList(url, name, img) {
+      if (shoppingList.find(p => p.url === url)) {
+        removeFromList(url);
+        return;
+      }
+      shoppingList.push({ url, name, img });
+      localStorage.setItem('fjList', JSON.stringify(shoppingList));
+      renderList();
+      document.getElementById('listPanel').classList.add('open');
+    }
+
+    function removeFromList(url) {
+      shoppingList = shoppingList.filter(p => p.url !== url);
+      localStorage.setItem('fjList', JSON.stringify(shoppingList));
+      renderList();
+      syncButtons();
+    }
+
+    function clearList() {
+      shoppingList = [];
+      localStorage.setItem('fjList', JSON.stringify(shoppingList));
+      renderList();
+      syncButtons();
+    }
+
+    function syncButtons() {
+      document.querySelectorAll('.add-to-list-btn').forEach(btn => {
+        const url = btn.dataset.url;
+        const inList = shoppingList.find(p => p.url === url);
+        btn.textContent = inList ? '✓' : '+';
+        btn.classList.toggle('added', !!inList);
+      });
+    }
+
+    function initShoppingList() {
+      document.querySelectorAll('.info-panel .product-link').forEach(link => {
+        if (!link.href || link.href.endsWith('#')) return;
+        const img = link.querySelector('img')?.src || '';
+        const name = link.textContent.replace('↗', '').trim();
+        const btn = document.createElement('button');
+        btn.className = 'add-to-list-btn';
+        btn.dataset.url = link.href;
+        btn.title = 'Dodaj do listy zakupów';
+        btn.textContent = shoppingList.find(p => p.url === link.href) ? '✓' : '+';
+        if (shoppingList.find(p => p.url === link.href)) btn.classList.add('added');
+        btn.onclick = e => {
+          e.preventDefault();
+          e.stopPropagation();
+          addToList(link.href, name, img);
+          syncButtons();
+        };
+        link.appendChild(btn);
+      });
+      renderList();
+    }
+
+    document.addEventListener('DOMContentLoaded', initShoppingList);
   </script>
 
 </body>
