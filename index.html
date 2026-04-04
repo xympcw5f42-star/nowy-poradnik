@@ -532,10 +532,19 @@
     }
     .list-item-remove:hover { color: #e05c5c; }
 
+    .list-panel-note {
+      font-size: 11px;
+      color: #7a98c0;
+      text-align: center;
+      padding: 8px 18px 0;
+      flex-shrink: 0;
+    }
+
     .list-panel-footer {
-      padding: 12px 18px;
+      padding: 8px 18px 14px;
       border-top: 1.5px solid #e8f0fb;
       display: flex;
+      flex-direction: column;
       gap: 8px;
       flex-shrink: 0;
     }
@@ -1238,8 +1247,11 @@
       <p class="list-empty">Brak produktów. Kliknij <strong>+</strong> przy produkcie aby dodać.</p>
     </div>
     <div class="list-panel-footer">
-      <a class="list-btn-shop" href="https://www.farbyjachtowe.pl/koszyk.html" target="_blank">Przejdź do sklepu →</a>
-      <button class="list-btn-clear" onclick="clearList()">Wyczyść</button>
+      <p class="list-panel-note">Każdy produkt otworzy się w nowej karcie — dodaj do koszyka na stronie produktu.</p>
+      <div style="display:flex;gap:8px;">
+        <button class="list-btn-shop" onclick="openAllProducts()">Otwórz wszystkie →</button>
+        <button class="list-btn-clear" onclick="clearList()">Wyczyść</button>
+      </div>
     </div>
   </div>
 
@@ -1323,6 +1335,13 @@
         link.appendChild(btn);
       });
       renderList();
+    }
+
+    function openAllProducts() {
+      if (shoppingList.length === 0) return;
+      shoppingList.forEach((p, i) => {
+        setTimeout(() => window.open(p.url, '_blank'), i * 300);
+      });
     }
 
     document.addEventListener('DOMContentLoaded', initShoppingList);
