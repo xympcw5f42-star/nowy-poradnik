@@ -5,36 +5,12 @@ name = "asystent-farbyjachtowe"
 main = "worker.js"
 compatibility_date = "2024-09-23"
 
-# Cloudflare AI — do tworzenia embeddingów (darmowe)
-[ai]
-binding = "AI"
-
-# Cloudflare Vectorize — baza wektorowa produktów
-# Utwórz przed pierwszym wdrożeniem:
-#   wrangler vectorize create produkty --dimensions=1024 --metric=cosine
-[[vectorize]]
-binding = "VECTORIZE"
-index_name = "produkty"
-
-# Zmienne środowiskowe (publiczne)
-[vars]
-# URL feedu XML z produktami ze sklepu ShopGold
-# Znajdziesz go w panelu admina: Integracje → Porównywarki cen → Ceneo
-FEED_URL = "https://www.farbyjachtowe.pl/ceneo.xml"
-
-# Codzienne automatyczne odświeżanie katalogu o 3:00 w nocy
-[triggers]
-crons = ["0 3 * * *"]
-
-# ─── SEKRETY (NIE wpisuj tutaj kluczy!) ───────────────────────────────────────
-# Ustaw je przez terminal przed wdrożeniem:
+# ─── SEKRET (NIE wpisuj klucza tutaj!) ────────────────────────────────────────
+# Ustaw przez terminal przed wdrożeniem:
 #
 #   wrangler secret put ANTHROPIC_API_KEY
 #   (wklej klucz z https://console.anthropic.com/settings/keys)
 #
-#   wrangler secret put REINDEX_SECRET
-#   (wpisz dowolne hasło, np. "mojeTajneHaslo2024")
-#
-# Hasło REINDEX_SECRET służy do ręcznego uruchomienia indeksowania:
-#   curl -X POST https://asystent-farbyjachtowe.<twojekonto>.workers.dev/reindex \
-#        -H "Authorization: Bearer mojeTajneHaslo2024"
+# To jedyna rzecz do skonfigurowania. Katalog produktów jest wbudowany
+# w products.js — żeby go zaktualizować, przegeneruj plik z nowego CSV
+# i ponownie uruchom `wrangler deploy`.

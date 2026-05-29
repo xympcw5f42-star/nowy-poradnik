@@ -1284,6 +1284,9 @@
       input.value = '';
       sendBtn.disabled = true;
       addBubble(msg, 'user');
+
+      // Historia BEZ bieżącej wiadomości (Worker sam ją dołączy)
+      const historyToSend = chatHistory.slice(-10);
       chatHistory.push({ role: 'user', content: msg });
 
       typing.classList.add('visible');
@@ -1302,7 +1305,7 @@
         const res = await fetch(CHAT_WORKER_URL + '/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg, history: chatHistory.slice(-10) })
+          body: JSON.stringify({ message: msg, history: historyToSend })
         });
 
         typing.classList.remove('visible');
