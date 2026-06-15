@@ -1,16 +1,19 @@
 # Cloudflare Worker — Asystent zakupowy farbyjachtowe.pl
-# Dokumentacja: https://developers.cloudflare.com/workers/
 
 name = "asystent-farbyjachtowe"
 main = "worker.js"
 compatibility_date = "2024-09-23"
 
-# ─── SEKRET (NIE wpisuj klucza tutaj!) ────────────────────────────────────────
-# Ustaw przez terminal przed wdrożeniem:
-#
+# Cloudflare AI Search (beta) — zarządzany RAG, crawluje farbyjachtowe.pl
+# Utwórz przed wdrożeniem: wrangler ai-search create
+#   → Name: farbyjachtowe
+#   → Source: website
+#   → URL: https://www.farbyjachtowe.pl
+[[ai_search]]
+binding = "SEARCH"
+instance_name = "farbyjachtowe"
+
+# ─── SEKRET ────────────────────────────────────────────────────────────────────
+# Ustaw przez terminal:
 #   wrangler secret put ANTHROPIC_API_KEY
-#   (wklej klucz z https://console.anthropic.com/settings/keys)
-#
-# To jedyna rzecz do skonfigurowania. Katalog produktów jest wbudowany
-# w products.js — żeby go zaktualizować, przegeneruj plik z nowego CSV
-# i ponownie uruchom `wrangler deploy`.
+#   (klucz z https://console.anthropic.com/settings/keys)
