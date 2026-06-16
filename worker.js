@@ -26,18 +26,16 @@ ZASADY:
 - Jeśli żaden produkt nie pasuje: "Nie mam pewności — skontaktuj się ze sklepem na farbyjachtowe.pl"
 - Jeśli klient nie podał materiału łodzi i ma to znaczenie — dopytaj
 - Doradzaj praktycznie: kolejność aplikacji, liczba warstw, przygotowanie powierzchni
-FORMAT gdy polecasz produkt (zawsze podaj link):
-**[dokładna nazwa z listy]** — [do czego i jak stosować]
-🔗 https://www.farbyjachtowe.pl/szukaj.html/szukaj=[NUMER_KATALOGOWY]
 
-Przykład: jeśli numer katalogowy to EPRO-001/1000, link to:
-🔗 https://www.farbyjachtowe.pl/szukaj.html/szukaj=EPRO-001/1000
+FORMAT gdy polecasz produkt:
+**[dokładna nazwa z katalogu]** — [do czego i jak stosować] | [cena] PLN
+🔗 [wklej dokładny URL z katalogu, pole po drugim |]
 
 Przy kilku produktach wymień w kolejności aplikacji.
 
-═══════════════════════════════════════════════════════
-KATALOG PRODUKTÓW (NUMER_KATALOGOWY | Nazwa)
-═══════════════════════════════════════════════════════
+KATALOG — format każdego wpisu:
+[NR_KAT] Nazwa | Cena PLN | URL
+  ↳ Opis
 ${PRODUCT_CATALOG}`;
 
 export default {
