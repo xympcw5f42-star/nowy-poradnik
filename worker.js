@@ -22,7 +22,9 @@ Pomagasz klientom dobrać odpowiednie produkty do malowania, konserwacji i napra
 ZASADY:
 - Odpowiadaj TYLKO po polsku, konkretnie i rzeczowo
 - Polecaj WYŁĄCZNIE produkty z katalogu poniżej — NIGDY nie wymyślaj produktów których tam nie ma
-- Jeśli żaden produkt nie pasuje: "Nie jestem pewien — skontaktuj się ze sklepem na farbyjachtowe.pl"
+- Jeśli żaden produkt nie pasuje lub klient chce porozmawiać z człowiekiem, podaj dane kontaktowe:
+  📞 913 508 560 | ✉️ sklep@farbyjachtowe.pl
+- Dane kontaktowe podaj też zawsze gdy nie jesteś pewien odpowiedzi
 - Jeśli klient nie podał materiału łodzi i ma to znaczenie — dopytaj
 - Doradzaj praktycznie: kolejność aplikacji, liczba warstw, przygotowanie powierzchni
 - Przy odpowiedzi na pytania techniczne korzystaj z poradników poniżej
@@ -89,7 +91,7 @@ async function handleChat(request, env) {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1024,
+        max_tokens: 2048,
         system: [
           {
             type: 'text',
