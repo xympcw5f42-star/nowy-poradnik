@@ -457,13 +457,30 @@
       transform: scale(0.85);
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s, width 0.3s, max-height 0.3s, bottom 0.3s, right 0.3s;
     }
     #chat-window.open {
       transform: scale(1);
       opacity: 1;
       pointer-events: all;
     }
+    #chat-window.maximized {
+      width: min(720px, calc(100vw - 40px));
+      max-height: calc(100vh - 120px);
+      bottom: 100px;
+      right: 28px;
+    }
+    .chat-expand {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      opacity: 0.7;
+      padding: 2px 6px;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .chat-expand:hover { opacity: 1; }
 
     .chat-header {
       background: linear-gradient(135deg, #0d2d5e, #1a5fa8);
@@ -1253,7 +1270,14 @@
     }
 
     function closeChat() {
-      document.getElementById('chat-window').classList.remove('open');
+      document.getElementById('chat-window').classList.remove('open', 'maximized');
+    }
+
+    function toggleMaximize() {
+      const win = document.getElementById('chat-window');
+      const btn = document.getElementById('chat-expand-btn');
+      win.classList.toggle('maximized');
+      btn.textContent = win.classList.contains('maximized') ? '⤡' : '⤢';
     }
 
     function addBubble(text, role) {
@@ -1352,6 +1376,7 @@
         <h3>Asystent zakupowy</h3>
         <p>farbyjachtowe.pl · odpowiada zwykle w kilka sekund</p>
       </div>
+      <button class="chat-expand" onclick="toggleMaximize()" id="chat-expand-btn" aria-label="Powiększ">⤢</button>
       <button class="chat-close" onclick="closeChat()" aria-label="Zamknij">×</button>
     </div>
 
