@@ -7,7 +7,7 @@ compatibility_date = "2024-09-23"
 # Wklej ID poniżej po utworzeniu
 [[kv_namespaces]]
 binding = "CONVERSATIONS"
-id = "WKLEJ_ID_TUTAJ"
+id = "d54bf0a2060c4b23895155302f5af770"
 
 # Sekrety:
 #   wrangler secret put ANTHROPIC_API_KEY
