@@ -458,17 +458,17 @@
     /* Dymek zachęcający */
     #chat-nudge {
       position: fixed;
-      bottom: 42px;
-      right: 100px;
+      bottom: 40px;
+      right: 104px;
       z-index: 1001;
-      max-width: 240px;
+      max-width: 300px;
       background: #fff;
       color: #1a2e3b;
-      padding: 13px 16px;
-      border-radius: 16px 16px 4px 16px;
-      box-shadow: 0 8px 32px rgba(13,45,94,0.25);
-      font-size: 14px;
-      line-height: 1.45;
+      padding: 18px 22px;
+      border-radius: 18px 18px 4px 18px;
+      box-shadow: 0 10px 38px rgba(13,45,94,0.28);
+      font-size: 16.5px;
+      line-height: 1.5;
       cursor: pointer;
       opacity: 0;
       transform: translateY(8px) scale(0.96);
@@ -680,7 +680,7 @@
     @media (max-width: 480px) {
       #chat-window { right: 12px; bottom: 90px; width: calc(100vw - 24px); }
       #chat-btn { right: 16px; bottom: 20px; }
-      #chat-nudge { right: 88px; bottom: 34px; max-width: min(240px, calc(100vw - 110px)); }
+      #chat-nudge { right: 84px; bottom: 32px; font-size: 15.5px; padding: 15px 18px; max-width: min(280px, calc(100vw - 100px)); }
     }
   </style>
 </head>
@@ -1346,7 +1346,6 @@
       e.stopPropagation();
       hideNudge();
       document.getElementById('chat-btn').classList.remove('attention');
-      try { sessionStorage.setItem('chatNudgeSeen', '1'); } catch (_) {}
     }
     function openChatFromNudge() {
       hideNudge();
@@ -1354,20 +1353,17 @@
       if (!win.classList.contains('open')) toggleChat();
     }
     (function initNudge() {
-      let seen = false;
-      try { seen = sessionStorage.getItem('chatNudgeSeen') === '1'; } catch (_) {}
-      if (seen) return;
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const win = document.getElementById('chat-window');
-          if (win.classList.contains('open')) return; // już otwarty
-          document.getElementById('chat-btn').classList.add('attention');
-          document.getElementById('chat-nudge').classList.add('show');
-          try { sessionStorage.setItem('chatNudgeSeen', '1'); } catch (_) {}
-          // schowaj dymek sam po 12 s (pierścień pulsuje dalej aż do kliknięcia)
-          setTimeout(hideNudge, 12000);
-        }, 4000);
-      });
+      // Dymek pokazuje się przy każdym wejściu / odświeżeniu strony
+      const start = () => setTimeout(() => {
+        const win = document.getElementById('chat-window');
+        if (win.classList.contains('open')) return; // już otwarty
+        document.getElementById('chat-btn').classList.add('attention');
+        document.getElementById('chat-nudge').classList.add('show');
+        // schowaj dymek sam po 12 s (pierścień pulsuje dalej aż do kliknięcia)
+        setTimeout(hideNudge, 12000);
+      }, 1200);
+      if (document.readyState === 'complete') start();
+      else window.addEventListener('load', start);
     })();
 
     function closeChat() {
