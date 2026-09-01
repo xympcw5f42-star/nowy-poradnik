@@ -439,6 +439,71 @@
       border: 2px solid #fff;
     }
 
+    /* Pulsujący pierścień przyciągający uwagę */
+    #chat-btn.attention::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #f7941d;
+      z-index: -1;
+      animation: chatPulse 2s ease-out infinite;
+    }
+    @keyframes chatPulse {
+      0%   { transform: scale(1);   opacity: 0.55; }
+      70%  { transform: scale(1.7); opacity: 0; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    /* Dymek zachęcający */
+    #chat-nudge {
+      position: fixed;
+      bottom: 42px;
+      right: 100px;
+      z-index: 1001;
+      max-width: 240px;
+      background: #fff;
+      color: #1a2e3b;
+      padding: 13px 16px;
+      border-radius: 16px 16px 4px 16px;
+      box-shadow: 0 8px 32px rgba(13,45,94,0.25);
+      font-size: 14px;
+      line-height: 1.45;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #chat-nudge.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+    #chat-nudge strong { color: #e07b0a; }
+    #chat-nudge::after {
+      content: '';
+      position: absolute;
+      right: -7px; bottom: 10px;
+      width: 14px; height: 14px;
+      background: #fff;
+      transform: rotate(45deg);
+      box-shadow: 3px -3px 8px rgba(13,45,94,0.06);
+    }
+    #chat-nudge .nudge-close {
+      position: absolute;
+      top: -8px; right: -8px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: #0d2d5e;
+      color: #fff;
+      border: 2px solid #fff;
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+
     #chat-window {
       position: fixed;
       bottom: 100px;
@@ -615,6 +680,7 @@
     @media (max-width: 480px) {
       #chat-window { right: 12px; bottom: 90px; width: calc(100vw - 24px); }
       #chat-btn { right: 16px; bottom: 20px; }
+      #chat-nudge { right: 88px; bottom: 34px; max-width: min(240px, calc(100vw - 110px)); }
     }
   </style>
 </head>
@@ -1264,10 +1330,45 @@
       const badge = document.querySelector('.chat-badge');
       win.classList.toggle('open');
       if (badge) badge.remove();
+      hideNudge();
+      document.getElementById('chat-btn').classList.remove('attention');
       if (win.classList.contains('open')) {
         document.getElementById('chat-input').focus();
       }
     }
+
+    // ── Zachęta do skorzystania z asystenta ──
+    function hideNudge() {
+      const n = document.getElementById('chat-nudge');
+      if (n) n.classList.remove('show');
+    }
+    function dismissNudge(e) {
+      e.stopPropagation();
+      hideNudge();
+      document.getElementById('chat-btn').classList.remove('attention');
+      try { sessionStorage.setItem('chatNudgeSeen', '1'); } catch (_) {}
+    }
+    function openChatFromNudge() {
+      hideNudge();
+      const win = document.getElementById('chat-window');
+      if (!win.classList.contains('open')) toggleChat();
+    }
+    (function initNudge() {
+      let seen = false;
+      try { seen = sessionStorage.getItem('chatNudgeSeen') === '1'; } catch (_) {}
+      if (seen) return;
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const win = document.getElementById('chat-window');
+          if (win.classList.contains('open')) return; // już otwarty
+          document.getElementById('chat-btn').classList.add('attention');
+          document.getElementById('chat-nudge').classList.add('show');
+          try { sessionStorage.setItem('chatNudgeSeen', '1'); } catch (_) {}
+          // schowaj dymek sam po 12 s (pierścień pulsuje dalej aż do kliknięcia)
+          setTimeout(hideNudge, 12000);
+        }, 4000);
+      });
+    })();
 
     function closeChat() {
       document.getElementById('chat-window').classList.remove('open', 'maximized');
@@ -1366,6 +1467,11 @@
     </svg>
     <span class="chat-badge">?</span>
   </button>
+
+  <div id="chat-nudge" onclick="openChatFromNudge()">
+    <span class="nudge-close" onclick="dismissNudge(event)" aria-label="Zamknij">×</span>
+    Cześć! 👋 Nie wiesz jaką farbę wybrać? <strong>Zapytaj mnie</strong> — pomogę w kilka sekund.
+  </div>
 
   <div id="chat-window" role="dialog" aria-label="Izydor — asystent">
     <div class="chat-header">
