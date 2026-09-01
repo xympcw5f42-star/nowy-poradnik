@@ -26,9 +26,9 @@
 
     .header-logo {
       display: block;
-      margin: 0 auto 20px;
-      max-width: 340px;
-      width: 70%;
+      margin: 0 auto 24px;
+      max-width: 480px;
+      width: 88%;
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 4px 24px rgba(0,0,0,0.25);
@@ -50,20 +50,20 @@
     }
 
     header h1 {
-      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-size: clamp(1.2rem, 2.4vw, 1.7rem);
       font-weight: 700;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 0;
       text-shadow: 0 2px 12px rgba(0,0,0,0.25);
     }
 
     header p {
-      font-size: 1.05rem;
+      font-size: 0.9rem;
       opacity: 0.82;
       max-width: 580px;
       margin: 0 auto;
-      line-height: 1.65;
+      line-height: 1.6;
     }
 
     /* ── Main ── */
@@ -624,8 +624,7 @@
     <a class="header-logo" href="https://www.farbyjachtowe.pl" target="_blank">
       <img src="https://www.farbyjachtowe.pl/images/banners/cms%20baner.png" alt="farbyjachtowe.pl">
     </a>
-    <h1>Poradnik malowania jachtów</h1>
-    <p>Interaktywny przewodnik po strefach kadłuba i odpowiednich systemach malarskich</p>
+    <h1>Poradnik malowania łodzi z interaktywnym asystentem</h1>
   </header>
 
   <main>
@@ -1361,20 +1360,20 @@
   </script>
 
   <!-- Chat Widget HTML -->
-  <button id="chat-btn" onclick="toggleChat()" aria-label="Otwórz asystenta zakupowego">
+  <button id="chat-btn" onclick="toggleChat()" aria-label="Otwórz czat z Izydorem">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2z"/>
     </svg>
     <span class="chat-badge">?</span>
   </button>
 
-  <div id="chat-window" role="dialog" aria-label="Asystent zakupowy">
+  <div id="chat-window" role="dialog" aria-label="Izydor — asystent">
     <div class="chat-header">
       <div class="chat-header-icon">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
       </div>
       <div class="chat-header-text">
-        <h3>Asystent zakupowy</h3>
+        <h3>Izydor — asystent</h3>
         <p>farbyjachtowe.pl · odpowiada zwykle w kilka sekund</p>
       </div>
       <button class="chat-expand" onclick="toggleMaximize()" id="chat-expand-btn" aria-label="Powiększ">⤢</button>
@@ -1383,7 +1382,7 @@
 
     <div class="chat-messages" id="chat-messages">
       <div class="chat-bubble bot">
-        Cześć! 👋 Jestem asystentem sklepu <strong>farbyjachtowe.pl</strong>.<br><br>
+        Cześć! 👋 Jestem <strong>Izydor</strong>, asystent sklepu <strong>farbyjachtowe.pl</strong>.<br><br>
         Pomogę Ci dobrać odpowiednie farby, lakiery i preparaty do Twojej łodzi. Zapytaj o cokolwiek!
       </div>
     </div>
