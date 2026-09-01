@@ -66,6 +66,79 @@
       line-height: 1.6;
     }
 
+    /* ── Stopka ── */
+    .site-footer {
+      background: linear-gradient(150deg, #0d2d5e 0%, #1a5fa8 100%);
+      color: #eaf3fc;
+      margin-top: 60px;
+      position: relative;
+    }
+    .site-footer::before {
+      content: '';
+      display: block;
+      height: 46px;
+      background: #deeefa;
+      clip-path: ellipse(55% 100% at 50% 0%);
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 24px 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .footer-col h4 {
+      font-size: 1.05rem;
+      color: #f7941d;
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+    .footer-col p, .footer-col a {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: #dbe9f7;
+      text-decoration: none;
+      display: block;
+    }
+    .footer-col a:hover { color: #fff; text-decoration: underline; }
+    .footer-contact a { font-weight: 600; }
+    .footer-contact .big {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 4px 0 10px;
+    }
+    .footer-logo img {
+      max-width: 220px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 14px;
+    }
+    .footer-cta {
+      display: inline-block;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #f7941d, #e07b0a);
+      color: #fff !important;
+      font-weight: 700;
+      padding: 11px 22px;
+      border-radius: 30px;
+      box-shadow: 0 4px 16px rgba(247,148,29,0.4);
+      transition: transform 0.15s;
+    }
+    .footer-cta:hover { transform: translateY(-2px); text-decoration: none !important; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.15);
+      text-align: center;
+      padding: 18px 24px;
+      font-size: 0.85rem;
+      color: #b9d3ec;
+    }
+    @media (max-width: 600px) {
+      .footer-inner { text-align: center; gap: 26px; }
+      .footer-logo img { margin-left: auto; margin-right: auto; }
+    }
+
     /* ── Main ── */
     .step-heading {
       font-size: 1.55rem;
@@ -1224,6 +1297,39 @@
     </div>
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-col footer-logo">
+        <a href="https://www.farbyjachtowe.pl" target="_blank" rel="noopener">
+          <img src="https://www.farbyjachtowe.pl/images/banners/cms%20baner.png" alt="farbyjachtowe.pl">
+        </a>
+        <p>Specjalistyczny sklep z farbami, lakierami i preparatami do jachtów i łodzi motorowych.</p>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <h4>Kontakt</h4>
+        <span class="big">📞 913 508 560</span>
+        <a href="mailto:sklep@farbyjachtowe.pl">✉️ sklep@farbyjachtowe.pl</a>
+        <a href="https://www.farbyjachtowe.pl" target="_blank" rel="noopener">🌐 www.farbyjachtowe.pl</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Potrzebujesz porady?</h4>
+        <p>Nie wiesz jaki produkt wybrać? Nasz asystent pomoże dobrać farby i systemy malarskie do Twojej łodzi.</p>
+        <a class="footer-cta" href="javascript:void(0)" onclick="openChatFromNudge()">💬 Zapytaj asystenta</a>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      © <span id="footer-year">2026</span> farbyjachtowe.pl — wszystkie prawa zastrzeżone.
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
   <script>
     const state = {};
 
@@ -1466,7 +1572,7 @@
 
   <div id="chat-nudge" onclick="openChatFromNudge()">
     <span class="nudge-close" onclick="dismissNudge(event)" aria-label="Zamknij">×</span>
-    Cześć! 👋 Nie wiesz jaką farbę wybrać? <strong>Zapytaj mnie</strong> — pomogę w kilka sekund.
+    Cześć! 👋 Potrzebujesz pomocy? <strong>Zapytaj mnie</strong> — pomogę w kilka sekund.
   </div>
 
   <div id="chat-window" role="dialog" aria-label="Izydor — asystent">
