@@ -158,18 +158,13 @@
       padding: 52px 24px 72px;
     }
 
-    /* ── Viewers grid ── */
+    /* ── Viewers grid (kafelki jeden pod drugim) ── */
     .viewers-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
       gap: 28px;
-    }
-
-    @media (max-width: 900px) {
-      .viewers-row { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .viewers-row { grid-template-columns: 1fr; }
+      max-width: 720px;
+      margin: 0 auto;
     }
 
 
