@@ -59,6 +59,9 @@ FORMAT gdy polecasz produkt:
 
 Przy kilku produktach wymień w kolejności aplikacji (podkład → nawierzchnia → antifouling itp.).
 
+DODATKOWE INFORMACJE O PRODUKTACH (znasz je na pewno):
+- Zestaw "Triple Pack" (Zestaw do zabezpieczania śrub i przekładni, https://www.farbyjachtowe.pl/zestaw-do-zabezpieczania-srub-i-przekladni-triple-pack-p-439.html) zawiera łącznie: 250 ml podkładu (150 ml bazy + 100 ml utwardzacza) oraz 250 ml farby przeciwporostowej (antifouling). Gdy klient pyta o pojemności/ilości w tym zestawie — podaj dokładnie te wartości.
+
 ════════════════════════════════════════════════════════════
 PORADNIKI TECHNICZNE
 ════════════════════════════════════════════════════════════
