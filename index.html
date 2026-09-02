@@ -610,8 +610,8 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: #fff;
-      opacity: 0.7;
+      color: #0d2d5e;
+      opacity: 0.6;
       padding: 2px 6px;
       font-size: 16px;
       line-height: 1;
@@ -619,30 +619,37 @@
     .chat-expand:hover { opacity: 1; }
 
     .chat-header {
-      background: linear-gradient(135deg, #0d2d5e, #1a5fa8);
-      color: #fff;
+      /* jasne, faliste tło w stylu banera farbyjachtowe.pl */
+      background:
+        radial-gradient(130% 180% at 92% -30%, rgba(247,148,29,0.55) 0%, rgba(247,148,29,0) 46%),
+        radial-gradient(120% 200% at 6% 140%, rgba(120,205,185,0.40) 0%, rgba(120,205,185,0) 52%),
+        radial-gradient(120% 200% at 55% 150%, rgba(26,112,184,0.32) 0%, rgba(26,112,184,0) 58%),
+        linear-gradient(120deg, #eef6fc 0%, #dcecfa 100%);
+      color: #0d2d5e;
       padding: 14px 18px;
       display: flex;
       align-items: center;
       gap: 10px;
+      border-bottom: 1px solid rgba(13,45,94,0.10);
     }
     .chat-header-icon {
       width: 36px; height: 36px;
-      background: rgba(255,255,255,0.15);
+      background: #fff;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(13,45,94,0.15);
     }
     .chat-header-icon svg { width: 20px; height: 20px; fill: #f7941d; }
-    .chat-header-text h3 { font-size: 14px; font-weight: 700; }
-    .chat-header-text p { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+    .chat-header-text h3 { font-size: 14px; font-weight: 700; color: #0d2d5e; }
+    .chat-header-text p { font-size: 11px; color: #3a5f85; margin-top: 1px; }
     .chat-close {
       margin-left: auto;
       background: none;
       border: none;
       cursor: pointer;
-      color: #fff;
-      opacity: 0.7;
+      color: #0d2d5e;
+      opacity: 0.6;
       font-size: 20px;
       line-height: 1;
       padding: 2px 4px;
