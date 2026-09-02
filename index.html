@@ -619,11 +619,9 @@
     .chat-expand:hover { opacity: 1; }
 
     .chat-header {
-      /* jasne, faliste tło w stylu banera farbyjachtowe.pl */
+      /* faliste tło w stylu banera farbyjachtowe.pl (grafika + zapasowy gradient) */
       background:
-        radial-gradient(130% 180% at 92% -30%, rgba(247,148,29,0.55) 0%, rgba(247,148,29,0) 46%),
-        radial-gradient(120% 200% at 6% 140%, rgba(120,205,185,0.40) 0%, rgba(120,205,185,0) 52%),
-        radial-gradient(120% 200% at 55% 150%, rgba(26,112,184,0.32) 0%, rgba(26,112,184,0) 58%),
+        url('chat-header-bg.jpg') center/cover no-repeat,
         linear-gradient(120deg, #eef6fc 0%, #dcecfa 100%);
       color: #0d2d5e;
       padding: 14px 18px;
