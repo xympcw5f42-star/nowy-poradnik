@@ -17,6 +17,24 @@
     }
     main { flex: 1 0 auto; }
 
+    /* ── Wbudowany czat Izydora (cała strona) ── */
+    .chat-embed {
+      max-width: 720px;
+      margin: 0 auto;
+      height: min(72vh, 660px);
+      min-height: 440px;
+      background: #fff;
+      border: 1px solid #e4eef8;
+      border-radius: 18px;
+      box-shadow: 0 10px 48px rgba(13,45,94,0.14);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    @media (max-width: 600px) {
+      .chat-embed { height: min(78vh, 620px); min-height: 380px; border-radius: 14px; }
+    }
+
     /* ── Header ── */
     header {
       background: linear-gradient(150deg, #0d2d5e 0%, #1a70b8 55%, #1a5fa8 100%);
@@ -770,533 +788,41 @@
   </header>
 
   <main>
-    <h2 class="step-heading">Krok 1 — Z czego wykonana jest twoja jednostka?</h2>
-    <div class="viewers-row">
-
-      <!-- Viewer 1 -->
-      <div class="boat-viewer" id="viewer1" onclick="focusViewer(this.id)">
-        <div class="viewer-header">
-          <span class="viewer-title">Laminat</span>
-          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+    <div class="chat-embed">
+      <div class="chat-header">
+        <div class="chat-header-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
         </div>
-        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          Wróć do wyboru
-        </button>
-        <div class="image-stack">
-          <img id="v1-img-plain"  src="https://i.imgur.com/plGSk2b.png" alt="żaglówka" class="visible img-plain">
-          <img id="v1-img-burta"  src="https://i.imgur.com/oSd7uNq.png" alt="nad linią wody – burta">
-          <img id="v1-img-poklad" src="https://i.imgur.com/MGlzIqJ.png" alt="nad linią wody – pokład">
-          <img id="v1-img-dno"    src="https://i.imgur.com/e43VPzo.png" alt="pod linią wody">
-        </div>
-        <div class="buttons-row">
-          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
-          <div class="buttons">
-            <button onclick="event.stopPropagation(); toggle('v1', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="event.stopPropagation(); toggle('v1', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="event.stopPropagation(); toggle('v1', 'dno',    this)">pod linią wody</button>
-          </div>
-          <button class="btn-reset" onclick="event.stopPropagation(); reset('v1')" title="Resetuj widok">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-              <path d="M3 3v5h5"/>
-            </svg>
-          </button>
-        </div>
-        <div class="zone-options" id="v1-opts-burta">
-          <span>Wybierz wariant:</span>
-          <button id="v1-opt-burta-powloka" onclick="event.stopPropagation(); showInfo('v1-info-burta-powloka', this, 'v1-opts-burta')">Aplikacja na istniejącą powłokę</button>
-          <button id="v1-opt-burta-zelkot"  onclick="event.stopPropagation(); showInfo('v1-info-burta-zelkot',  this, 'v1-opts-burta')">Aplikacja na żelkot</button>
-        </div>
-
-        <div class="info-panel" id="v1-info-burta-powloka">
-          <div>
-            <h4>Odświeżenie istniejącej powłoki</h4>
-            <p>Jeżeli farba jest w dobrym stanie i chcemy ją tylko odświeżyć, można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę z silikonem:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-z-silikonem-wys-polysk-nautiforte-0-75l-rozne-kolory-p-18.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-004.0750_800x800.jpg" alt="">↗ Epifanes Nautiforte</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, należy najpierw nałożyć podkład przekładkowy, a następnie farbę poliuretanową.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-uniwersalna-multi-marine-primer-0-75l-p-48.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-001.0750_800x800.jpg" alt="">↗ Epifanes MultiMarine Primer (podkład)</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-panel" id="v1-info-burta-zelkot">
-          <div>
-            <h4>Krok 1 — podkład poliuretanowy</h4>
-            <p>Należy najpierw zastosować podkład poliuretanowy dwuskładnikowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-poliuretanowa-poly-urethane-primer-0-75l-p-1545.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-005.0750_800x800.jpg" alt="">↗ Epifanes Poly-Urethane Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba nawierzchniowa jednoskładnikowa</h4>
-            <p>Można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę z silikonem:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-z-silikonem-wys-polysk-nautiforte-0-75l-rozne-kolory-p-18.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-004.0750_800x800.jpg" alt="">↗ Epifanes Nautiforte</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 (alternatywnie) — twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, można ją nałożyć bezpośrednio na podkład z kroku 1.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="zone-options" id="v1-opts-poklad">
-          <span>Wybierz wariant:</span>
-          <button id="v1-opt-powloka" onclick="event.stopPropagation(); showInfo('v1-info-powloka', this, 'v1-opts-poklad')">Aplikacja na istniejącą powłokę</button>
-          <button id="v1-opt-zelkot"  onclick="event.stopPropagation(); showInfo('v1-info-zelkot',  this, 'v1-opts-poklad')">Aplikacja na żelkot</button>
-        </div>
-
-        <div class="info-panel" id="v1-info-powloka">
-          <div>
-            <h4>Odświeżenie istniejącej powłoki</h4>
-            <p>Jeżeli farba jest w dobrym stanie i chcemy ją tylko odświeżyć, można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę przeciwpoślizgową jednoskładnikową:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwposlizgowa-nonskid-deckoating-0-75l-rozne-kolory-p-23.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-003.0750_800x800.jpg" alt="">↗ Epifanes Nonskid Deckoating</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, należy najpierw nałożyć podkład przekładkowy, a następnie farbę poliuretanową. Do farby można dodać proszek przeciwpoślizgowy.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-uniwersalna-multi-marine-primer-0-75l-p-48.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-001.0750_800x800.jpg" alt="">↗ Epifanes MultiMarine Primer (podkład)</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/granulat-przeciwposlizgowy-nonskid-beads-do-farb-mono-i-poly-urethane-20-g-p-77.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPWP-001.020_800x800.jpg" alt="">↗ Granulat przeciwpoślizgowy (dodatek)</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-panel" id="v1-info-zelkot">
-          <div>
-            <h4>Krok 1 — podkład poliuretanowy</h4>
-            <p>Należy najpierw zastosować podkład poliuretanowy dwuskładnikowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-poliuretanowa-poly-urethane-primer-0-75l-p-1545.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-005.0750_800x800.jpg" alt="">↗ Epifanes Poly-Urethane Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba nawierzchniowa jednoskładnikowa</h4>
-            <p>Można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę przeciwpoślizgową jednoskładnikową:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwposlizgowa-nonskid-deckoating-0-75l-rozne-kolory-p-23.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-003.0750_800x800.jpg" alt="">↗ Epifanes Nonskid Deckoating</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 (alternatywnie) — twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, można ją nałożyć bezpośrednio na podkład z kroku 1. Do farby można dodać proszek przeciwpoślizgowy.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/granulat-przeciwposlizgowy-nonskid-beads-do-farb-mono-i-poly-urethane-20-g-p-77.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPWP-001.020_800x800.jpg" alt="">↗ Granulat przeciwpoślizgowy (dodatek)</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="zone-options" id="v1-opts-dno">
-          <span>Wybierz wariant:</span>
-          <button id="v1-opt-dno-powloka" onclick="event.stopPropagation(); showInfo('v1-info-dno-powloka', this, 'v1-opts-dno')">Aplikacja na istniejącą powłokę</button>
-          <button id="v1-opt-dno-zelkot"  onclick="event.stopPropagation(); showInfo('v1-info-dno-zelkot',  this, 'v1-opts-dno')">Aplikacja na żelkot</button>
-        </div>
-
-        <div class="info-panel" id="v1-info-dno-powloka">
-          <div>
-            <h4>Krok 1 — podkład przekładkowy</h4>
-            <p>Przed nałożeniem antifoulingu należy zastosować podkład przekładkowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-jednokomponentowa-do-farb-przeciwporostowych-seajet-015-underwater-primer-750ml-p-1714.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/seajet/SJGT-003.0750.SILVER_800x800.jpg" alt="">↗ SeaJet 015 Underwater Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Na koniec należy nałożyć farbę przeciwporostową dopasowaną do warunków eksploatacji:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-panel" id="v1-info-dno-zelkot">
-          <div>
-            <h4>Krok 1 — podkład epoksydowy</h4>
-            <p>Na żelkot należy nałożyć podkład epoksydowy w 2 lub 4 warstwach (w zależności od produktu):</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-podkladowe-do-jachtow-c-18_82.html" target="_blank">↗ Podkłady epoksydowe — wybór z naszego sklepu</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Na koniec należy nałożyć farbę przeciwporostową dopasowaną do warunków eksploatacji:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
+        <div class="chat-header-text">
+          <h3>Izydor — asystent zakupowy</h3>
+          <p>farbyjachtowe.pl · odpowiada zwykle w kilka sekund</p>
         </div>
       </div>
 
-      <!-- Viewer 2 -->
-      <div class="boat-viewer" id="viewer2" onclick="focusViewer(this.id)">
-        <div class="viewer-header">
-          <span class="viewer-title">Aluminium i stal</span>
-          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        </div>
-        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          Wróć do wyboru
-        </button>
-        <div class="image-stack">
-          <img id="v2-img-plain"  src="https://i.imgur.com/YZvIcxq.png" alt="żaglówka" class="visible img-plain">
-          <img id="v2-img-burta"  src="https://i.imgur.com/AwdGlVH.png" alt="nad linią wody – burta">
-          <img id="v2-img-poklad" src="https://i.imgur.com/Je1ti97.png" alt="nad linią wody – pokład">
-          <img id="v2-img-dno"    src="https://i.imgur.com/bv6kaNx.png" alt="pod linią wody">
-        </div>
-        <div class="buttons-row">
-          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
-          <div class="buttons">
-            <button onclick="event.stopPropagation(); toggle('v2', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="event.stopPropagation(); toggle('v2', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="event.stopPropagation(); toggle('v2', 'dno',    this)">pod linią wody</button>
-          </div>
-          <button class="btn-reset" onclick="event.stopPropagation(); reset('v2')" title="Resetuj widok">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-              <path d="M3 3v5h5"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- burta -->
-        <div class="zone-options" id="v2-opts-burta">
-          <span>Wybierz wariant:</span>
-          <button id="v2-opt-burta-powloka" onclick="event.stopPropagation(); showInfo('v2-info-burta-powloka', this, 'v2-opts-burta')">Aplikacja na istniejącą powłokę</button>
-          <button id="v2-opt-burta-metal"   onclick="event.stopPropagation(); showInfo('v2-info-burta-metal',   this, 'v2-opts-burta')">Aplikacja na stal lub aluminium</button>
-        </div>
-        <div class="info-panel" id="v2-info-burta-powloka">
-          <div>
-            <h4>Odświeżenie istniejącej powłoki</h4>
-            <p>Jeżeli farba jest w dobrym stanie i chcemy ją tylko odświeżyć, można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę z silikonem:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-z-silikonem-wys-polysk-nautiforte-0-75l-rozne-kolory-p-18.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-004.0750_800x800.jpg" alt="">↗ Epifanes Nautiforte</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, należy najpierw nałożyć podkład przekładkowy, a następnie farbę poliuretanową.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-uniwersalna-multi-marine-primer-0-75l-p-48.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-001.0750_800x800.jpg" alt="">↗ Epifanes MultiMarine Primer (podkład)</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v2-info-burta-metal">
-          <div>
-            <h4>Krok 1 — podkład poliuretanowy</h4>
-            <p>Należy najpierw zastosować podkład poliuretanowy dwuskładnikowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-poliuretanowa-poly-urethane-primer-0-75l-p-1545.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-005.0750_800x800.jpg" alt="">↗ Epifanes Poly-Urethane Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba nawierzchniowa jednoskładnikowa</h4>
-            <p>Można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę z silikonem:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-z-silikonem-wys-polysk-nautiforte-0-75l-rozne-kolory-p-18.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-004.0750_800x800.jpg" alt="">↗ Epifanes Nautiforte</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 (alternatywnie) — twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, można ją nałożyć bezpośrednio na podkład z kroku 1.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- pokład -->
-        <div class="zone-options" id="v2-opts-poklad">
-          <span>Wybierz wariant:</span>
-          <button id="v2-opt-poklad-powloka" onclick="event.stopPropagation(); showInfo('v2-info-poklad-powloka', this, 'v2-opts-poklad')">Aplikacja na istniejącą powłokę</button>
-          <button id="v2-opt-poklad-metal"   onclick="event.stopPropagation(); showInfo('v2-info-poklad-metal',   this, 'v2-opts-poklad')">Aplikacja na stal lub aluminium</button>
-        </div>
-        <div class="info-panel" id="v2-info-poklad-powloka">
-          <div>
-            <h4>Odświeżenie istniejącej powłoki</h4>
-            <p>Jeżeli farba jest w dobrym stanie i chcemy ją tylko odświeżyć, można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę przeciwpoślizgową jednoskładnikową:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwposlizgowa-nonskid-deckoating-0-75l-rozne-kolory-p-23.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-003.0750_800x800.jpg" alt="">↗ Epifanes Nonskid Deckoating</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, należy najpierw nałożyć podkład przekładkowy, a następnie farbę poliuretanową. Do farby można dodać proszek przeciwpoślizgowy.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-uniwersalna-multi-marine-primer-0-75l-p-48.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-001.0750_800x800.jpg" alt="">↗ Epifanes MultiMarine Primer (podkład)</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/granulat-przeciwposlizgowy-nonskid-beads-do-farb-mono-i-poly-urethane-20-g-p-77.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPWP-001.020_800x800.jpg" alt="">↗ Granulat przeciwpoślizgowy (dodatek)</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v2-info-poklad-metal">
-          <div>
-            <h4>Krok 1 — podkład poliuretanowy</h4>
-            <p>Należy najpierw zastosować podkład poliuretanowy dwuskładnikowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-poliuretanowa-poly-urethane-primer-0-75l-p-1545.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPGT-005.0750_800x800.jpg" alt="">↗ Epifanes Poly-Urethane Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba nawierzchniowa jednoskładnikowa</h4>
-            <p>Można zastosować farbę jednoskładnikową:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-nawierzchniowa-wysoki-polysk-twarda-mono-urethane-0-75-l-rozne-kolory-p-16.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-002.0750_800x800.jpg" alt="">↗ Epifanes Mono-Urethane</a>
-              <span style="font-size:12px;color:#5a7a8a;padding-left:2px;">lub farbę przeciwpoślizgową:</span>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwposlizgowa-nonskid-deckoating-0-75l-rozne-kolory-p-23.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPFN-003.0750_800x800.jpg" alt="">↗ Epifanes Nonskid Deckoating</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 (alternatywnie) — twarda farba poliuretanowa</h4>
-            <p>Jeżeli chcemy zastosować twardszą farbę poliuretanową, można ją nałożyć bezpośrednio na podkład z kroku 1. Do farby można dodać proszek przeciwpoślizgowy.</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-nawierzchniowe-do-jachtow-c-2_4.html" target="_blank"><img src="https://i.imgur.com/fHjHeSH.png" alt="">↗ Farby poliuretanowe dwuskładnikowe</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/granulat-przeciwposlizgowy-nonskid-beads-do-farb-mono-i-poly-urethane-20-g-p-77.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPWP-001.020_800x800.jpg" alt="">↗ Granulat przeciwpoślizgowy (dodatek)</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- dno -->
-        <div class="zone-options" id="v2-opts-dno">
-          <span>Wybierz wariant:</span>
-          <button id="v2-opt-dno-powloka" onclick="event.stopPropagation(); showInfo('v2-info-dno-powloka', this, 'v2-opts-dno')">Aplikacja na istniejącą powłokę</button>
-          <button id="v2-opt-dno-metal"   onclick="event.stopPropagation(); showInfo('v2-info-dno-metal',   this, 'v2-opts-dno')">Aplikacja na stal lub aluminium</button>
-        </div>
-        <div class="info-panel" id="v2-info-dno-powloka">
-          <div>
-            <h4>Krok 1 — podkład przekładkowy</h4>
-            <p>Przed nałożeniem antifoulingu należy zastosować podkład przekładkowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-jednokomponentowa-do-farb-przeciwporostowych-seajet-015-underwater-primer-750ml-p-1714.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/seajet/SJGT-003.0750.SILVER_800x800.jpg" alt="">↗ SeaJet 015 Underwater Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Na stal można zastosować dowolny antifouling z naszej oferty:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Uwaga — aluminium</h4>
-            <p>Na aluminium należy zastosować wyłącznie antifouling przeznaczony do aluminium:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwporostowa-samopolerujaca-zywe-kolory-034-emperor-0-75l-p-273.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/seajet/SJAF-004.0750_2560x2560.jpg" alt="">↗ SeaJet Emperor 034</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v2-info-dno-metal">
-          <div>
-            <h4>Krok 1 — podkład epoksydowy</h4>
-            <p>Na surowy metal należy nałożyć podkład epoksydowy w 2 lub 4 warstwach (w zależności od produktu):</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-podkladowe-do-jachtow-c-18_82.html" target="_blank">↗ Podkłady epoksydowe — wybór z naszego sklepu</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Na stal można zastosować dowolny antifouling z naszej oferty:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Uwaga — aluminium</h4>
-            <p>Na aluminium należy zastosować wyłącznie antifouling przeznaczony do aluminium:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-przeciwporostowa-samopolerujaca-zywe-kolory-034-emperor-0-75l-p-273.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/seajet/SJAF-004.0750_2560x2560.jpg" alt="">↗ SeaJet Emperor 034</a>
-            </div>
-          </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-bubble bot">
+          Cześć! 👋 Jestem <strong>Izydor</strong>, asystent sklepu <strong>farbyjachtowe.pl</strong>.<br><br>
+          Pomogę Ci dobrać farby, lakiery i preparaty do Twojej łodzi oraz doradzę w sprawach technicznych — malowanie nad i pod linią wody, osmoza, antifouling, lakierowanie drewna i wiele innych. Zapytaj o cokolwiek!
         </div>
       </div>
 
-      <!-- Viewer 3 -->
-      <div class="boat-viewer" id="viewer3" onclick="focusViewer(this.id)">
-        <div class="viewer-header">
-          <span class="viewer-title">Drewno</span>
-          <svg class="viewer-expand-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
-        </div>
-        <button class="btn-back" onclick="event.stopPropagation(); unfocus()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-          Wróć do wyboru
-        </button>
-        <div class="image-stack">
-          <img id="v3-img-plain"  src="https://i.imgur.com/P1puyRU.png" alt="jacht" class="visible img-plain">
-          <img id="v3-img-burta"  src="https://i.imgur.com/Uk50rV6.png" alt="nad linią wody – burta">
-          <img id="v3-img-poklad" src="https://i.imgur.com/jVrB38M.png" alt="nad linią wody – pokład">
-          <img id="v3-img-dno"    src="https://i.imgur.com/CV4WhCt.png" alt="pod linią wody">
-        </div>
-        <div class="buttons-row">
-          <p class="step2-heading">Krok 2 — Jaką część jednostki chcesz odświeżyć?</p>
-          <div class="buttons">
-            <button onclick="event.stopPropagation(); toggle('v3', 'burta',  this)">nad linią wody burty</button>
-            <button onclick="event.stopPropagation(); toggle('v3', 'poklad', this)">nad linią wody pokład</button>
-            <button onclick="event.stopPropagation(); toggle('v3', 'dno',    this)">pod linią wody</button>
-          </div>
-          <button class="btn-reset" onclick="event.stopPropagation(); reset('v3')" title="Resetuj widok">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-              <path d="M3 3v5h5"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="zone-options" id="v3-opts-burta">
-          <span>Wybierz wariant:</span>
-          <button id="v3-opt-burta-powloka" onclick="event.stopPropagation(); showInfo('v3-info-burta-powloka', this, 'v3-opts-burta')">Aplikacja na istniejącą powłokę</button>
-          <button id="v3-opt-burta-drewno"  onclick="event.stopPropagation(); showInfo('v3-info-burta-drewno',  this, 'v3-opts-burta')">Aplikacja na drewno</button>
-        </div>
-        <div class="info-panel" id="v3-info-burta-powloka">
-          <div>
-            <h4>Przygotowanie powierzchni</h4>
-            <p>Istniejący lakier należy zmatowić papierem ściernym, aby zapewnić przyczepność nowej warstwy. Usunąć pył i odtłuścić powierzchnię.</p>
-          </div>
-          <hr>
-          <div>
-            <h4>Odświeżenie — 1–2 warstwy lakieru</h4>
-            <p>Nałożyć 1–2 warstwy lakieru jachtowego:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/tradycyjny-lakier-bezbarwny-jednoskladnikowy-clear-varnish-gloss-1l-p-33.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPLB-001.1000_800x800.jpg" alt="">↗ Epifanes Clear Varnish</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v3-info-burta-drewno">
-          <div>
-            <h4>Przygotowanie powierzchni</h4>
-            <p>Drewno należy dobrze zmatowić papierem ściernym wzdłuż włókien. Usunąć pył i odtłuścić powierzchnię.</p>
-          </div>
-          <hr>
-          <div>
-            <h4>8–10 warstw lakieru</h4>
-            <p>Nałożyć 8–10 warstw lakieru jachtowego. Pierwsze 3 warstwy należy mocno rozcieńczyć rozcieńczalnikiem:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/tradycyjny-lakier-bezbarwny-jednoskladnikowy-clear-varnish-gloss-1l-p-33.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPLB-001.1000_800x800.jpg" alt="">↗ Epifanes Clear Varnish</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/rozcienczalnik-do-farb-i-lakierow-jednoskl-brushthinner-for-paint-varnish-1l-p-4.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPRO-001.1000_800x800.jpg" alt="">↗ Epifanes Brushthinner (rozcieńczalnik, pierwsze 3 warstwy)</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="zone-options" id="v3-opts-poklad">
-          <span>Wybierz wariant:</span>
-          <button id="v3-opt-poklad-teak"   onclick="event.stopPropagation(); showInfo('v3-info-poklad-teak',   this, 'v3-opts-poklad')">Pokład teakowy</button>
-          <button id="v3-opt-poklad-drewno" onclick="event.stopPropagation(); showInfo('v3-info-poklad-drewno', this, 'v3-opts-poklad')">Pozostałe elementy drewniane</button>
-        </div>
-        <div class="info-panel" id="v3-info-poklad-teak">
-          <div>
-            <h4>Olejowanie teaku</h4>
-            <p>Pokład teakowy najlepiej zabezpieczyć olejem do drewna, który odżywia i chroni teak bez tworzenia błyszczącej powłoki:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/oleje-do-drewna-na-jachcie-c-11_135.html" target="_blank">↗ Oleje do drewna — wybór z naszego sklepu</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v3-info-poklad-drewno">
-          <div>
-            <h4>Istniejąca powłoka lakiernicza</h4>
-            <p>Zmatowić papierem ściernym, usunąć pył i nałożyć 1–2 warstwy lakieru:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/tradycyjny-lakier-bezbarwny-jednoskladnikowy-clear-varnish-gloss-1l-p-33.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPLB-001.1000_800x800.jpg" alt="">↗ Epifanes Clear Varnish</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Surowe drewno — 8–10 warstw</h4>
-            <p>Dobrze zmatowić wzdłuż włókien, odtłuścić i nałożyć 8–10 warstw lakieru. Pierwsze 3 warstwy mocno rozcieńczyć:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/tradycyjny-lakier-bezbarwny-jednoskladnikowy-clear-varnish-gloss-1l-p-33.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPLB-001.1000_800x800.jpg" alt="">↗ Epifanes Clear Varnish</a>
-              <a class="product-link" href="https://www.farbyjachtowe.pl/rozcienczalnik-do-farb-i-lakierow-jednoskl-brushthinner-for-paint-varnish-1l-p-4.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/epifanes/EPRO-001.1000_800x800.jpg" alt="">↗ Epifanes Brushthinner (rozcieńczalnik, pierwsze 3 warstwy)</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="zone-options" id="v3-opts-dno">
-          <span>Wybierz wariant:</span>
-          <button id="v3-opt-dno-powloka" onclick="event.stopPropagation(); showInfo('v3-info-dno-powloka', this, 'v3-opts-dno')">Aplikacja na istniejącą powłokę</button>
-          <button id="v3-opt-dno-drewno"  onclick="event.stopPropagation(); showInfo('v3-info-dno-drewno',  this, 'v3-opts-dno')">Aplikacja na surowe drewno</button>
-        </div>
-        <div class="info-panel" id="v3-info-dno-powloka">
-          <div>
-            <h4>Krok 1 — podkład przekładkowy</h4>
-            <p>Przed nałożeniem antifoulingu należy zastosować podkład przekładkowy:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/farba-podkladowa-jednokomponentowa-do-farb-przeciwporostowych-seajet-015-underwater-primer-750ml-p-1714.html" target="_blank"><img src="https://www.farbyjachtowe.pl/images/produkty/seajet/SJGT-003.0750.SILVER_800x800.jpg" alt="">↗ SeaJet 015 Underwater Primer</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Nałożyć farbę przeciwporostową dopasowaną do warunków eksploatacji:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
-        </div>
-        <div class="info-panel" id="v3-info-dno-drewno">
-          <div>
-            <h4>Krok 1 — podkład epoksydowy</h4>
-            <p>Na surowe drewno należy nałożyć podkład epoksydowy w 2 lub 4 warstwach (w zależności od produktu):</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/dwuskladnikowe-farby-podkladowe-do-jachtow-c-18_82.html" target="_blank">↗ Podkłady epoksydowe — wybór z naszego sklepu</a>
-            </div>
-          </div>
-          <hr>
-          <div>
-            <h4>Krok 2 — farba przeciwporostowa</h4>
-            <p>Nałożyć farbę przeciwporostową dopasowaną do warunków eksploatacji:</p>
-            <div class="products">
-              <a class="product-link" href="https://www.farbyjachtowe.pl/antifoulingi-standardowe-do-40-wezlow-predkosci-c-5_114.html" target="_blank">↗ Antifoulingi — wybór z naszego sklepu</a>
-            </div>
-          </div>
-        </div>
+      <div class="chat-typing" id="chat-typing">
+        <span></span><span></span><span></span>
       </div>
 
+      <div class="chat-input-row">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Np. czym zabezpieczyć dno łodzi z laminatu?"
+          autocomplete="off"
+          maxlength="500"
+        >
+        <button id="chat-send" onclick="sendChat()" aria-label="Wyślij">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+      <p class="chat-disclaimer">Asystent AI może się mylić. W razie wątpliwości skontaktuj się ze sklepem: 📞 913 508 560 · ✉️ sklep@farbyjachtowe.pl</p>
     </div>
   </main>
 
@@ -1320,7 +846,7 @@
       <div class="footer-col">
         <h4>Potrzebujesz porady?</h4>
         <p>Nie wiesz jaki produkt wybrać? Nasz asystent pomoże dobrać farby i systemy malarskie do Twojej łodzi.</p>
-        <a class="footer-cta" href="javascript:void(0)" onclick="openChatFromNudge()">💬 Zapytaj asystenta</a>
+        <a class="footer-cta" href="javascript:void(0)" onclick="document.getElementById('chat-input').scrollIntoView({behavior:'smooth',block:'center'});document.getElementById('chat-input').focus();">💬 Napisz do Izydora</a>
       </div>
 
     </div>
@@ -1334,157 +860,11 @@
   </script>
 
   <script>
-    const state = {};
-
-    function focusViewer(viewerId) {
-      const viewer = document.getElementById(viewerId);
-      const all = document.querySelectorAll('.boat-viewer');
-      if (viewer.classList.contains('focused')) return;
-
-      const rect = viewer.getBoundingClientRect();
-      const dx = window.innerWidth  / 2 - (rect.left + rect.width  / 2);
-      const dy = window.innerHeight / 2 - (rect.top  + rect.height / 2);
-
-      const maxScale = Math.min(1.3,
-        (window.innerWidth  - 24) / rect.width,
-        (window.innerHeight - 24) / rect.height
-      );
-      all.forEach(v => {
-        if (v.id === viewerId) {
-          v.style.transform = `translate(${dx}px, ${dy}px) scale(${maxScale})`;
-          v.classList.add('focused');
-        } else {
-          v.classList.add('dimming');
-        }
-      });
-    }
-
-    function unfocus() {
-      document.querySelectorAll('.boat-viewer').forEach(v => {
-        v.classList.remove('focused', 'dimming');
-        v.style.transform = '';
-      });
-      // zresetuj wszystkie widgety
-      ['v1','v2','v3'].forEach(vid => reset(vid));
-    }
-
-    function showInfo(panelId, btn, optsId) {
-      const panel = document.getElementById(panelId);
-      const isOpen = panel.classList.contains('visible');
-      // zamknij wszystkie panele w tej grupie
-      document.querySelectorAll('#' + optsId + ' ~ .info-panel').forEach(p => p.classList.remove('visible'));
-      document.querySelectorAll('#' + optsId + ' button').forEach(b => b.classList.remove('active'));
-      if (!isOpen) {
-        panel.classList.add('visible');
-        btn.classList.add('active');
-      }
-    }
-
-    function setOpts(viewerId, key) {
-      const el = document.getElementById(viewerId + '-opts-' + key);
-      // ukryj wszystkie opcje tego viewera
-      document.querySelectorAll('[id^="' + viewerId + '-opts-"]').forEach(d => d.classList.remove('visible'));
-      if (el) el.classList.add('visible');
-    }
-
-    function hideOpts(viewerId) {
-      document.querySelectorAll('[id^="' + viewerId + '-opts-"]').forEach(d => d.classList.remove('visible'));
-      document.querySelectorAll('[id^="' + viewerId + '-info-"]').forEach(d => d.classList.remove('visible'));
-      document.querySelectorAll('[id^="' + viewerId + '-opt-"]').forEach(b => b.classList.remove('active'));
-    }
-
-    function reset(viewerId) {
-      const s = state[viewerId];
-      if (!s || !s.activeKey) return;
-      document.getElementById(viewerId + '-img-' + s.activeKey).classList.remove('visible');
-      if (s.activeBtn) s.activeBtn.classList.remove('active');
-      document.getElementById(viewerId + '-img-plain').classList.add('visible');
-      hideOpts(viewerId);
-      state[viewerId] = { activeKey: null, activeBtn: null };
-    }
-
-    function toggle(viewerId, key, btn) {
-      const s = state[viewerId] || { activeKey: null, activeBtn: null };
-      const plain = document.getElementById(viewerId + '-img-plain');
-
-      if (s.activeKey) {
-        document.getElementById(viewerId + '-img-' + s.activeKey).classList.remove('visible');
-        if (s.activeBtn) s.activeBtn.classList.remove('active');
-      }
-
-      if (s.activeKey === key) {
-        plain.classList.add('visible');
-        hideOpts(viewerId);
-        state[viewerId] = { activeKey: null, activeBtn: null };
-      } else {
-        plain.classList.remove('visible');
-        document.getElementById(viewerId + '-img-' + key).classList.add('visible');
-        btn.classList.add('active');
-        hideOpts(viewerId);
-        setOpts(viewerId, key);
-        state[viewerId] = { activeKey: key, activeBtn: btn };
-      }
-    }
-
-    // ── Chat Widget ──────────────────────────────────────────────────────────
-
-    // Wstaw tutaj URL swojego Cloudflare Workera po wdrożeniu:
+    // ── Asystent Izydor ──
     const CHAT_WORKER_URL = 'https://asystent-farbyjachtowe.farbyjachtowe.workers.dev';
 
     const chatHistory = [];
     const chatSessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
-
-    function toggleChat() {
-      const win = document.getElementById('chat-window');
-      const badge = document.querySelector('.chat-badge');
-      win.classList.toggle('open');
-      if (badge) badge.remove();
-      hideNudge();
-      document.getElementById('chat-btn').classList.remove('attention');
-      if (win.classList.contains('open')) {
-        document.getElementById('chat-input').focus();
-      }
-    }
-
-    // ── Zachęta do skorzystania z asystenta ──
-    function hideNudge() {
-      const n = document.getElementById('chat-nudge');
-      if (n) n.classList.remove('show');
-    }
-    function dismissNudge(e) {
-      e.stopPropagation();
-      hideNudge();
-      document.getElementById('chat-btn').classList.remove('attention');
-    }
-    function openChatFromNudge() {
-      hideNudge();
-      const win = document.getElementById('chat-window');
-      if (!win.classList.contains('open')) toggleChat();
-    }
-    (function initNudge() {
-      // Dymek pokazuje się przy każdym wejściu / odświeżeniu strony
-      const start = () => setTimeout(() => {
-        const win = document.getElementById('chat-window');
-        if (win.classList.contains('open')) return; // już otwarty
-        document.getElementById('chat-btn').classList.add('attention');
-        document.getElementById('chat-nudge').classList.add('show');
-        // schowaj dymek sam po 12 s (pierścień pulsuje dalej aż do kliknięcia)
-        setTimeout(hideNudge, 12000);
-      }, 1200);
-      if (document.readyState === 'complete') start();
-      else window.addEventListener('load', start);
-    })();
-
-    function closeChat() {
-      document.getElementById('chat-window').classList.remove('open', 'maximized');
-    }
-
-    function toggleMaximize() {
-      const win = document.getElementById('chat-window');
-      const btn = document.getElementById('chat-expand-btn');
-      win.classList.toggle('maximized');
-      btn.textContent = win.classList.contains('maximized') ? '⤡' : '⤢';
-    }
 
     function addBubble(text, role) {
       const msgs = document.getElementById('chat-messages');
@@ -1500,9 +880,7 @@
       return text
         .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // markdown links [tekst](url)
         .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-        // bare URLs
         .replace(/(https?:\/\/[^\s<"]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
         .replace(/\n/g, '<br>');
     }
@@ -1518,7 +896,6 @@
       sendBtn.disabled = true;
       addBubble(msg, 'user');
 
-      // Historia BEZ bieżącej wiadomości (Worker sam ją dołączy)
       const historyToSend = chatHistory.slice(-10);
       chatHistory.push({ role: 'user', content: msg });
 
@@ -1526,15 +903,6 @@
       document.getElementById('chat-messages').scrollTop = 99999;
 
       try {
-        if (CHAT_WORKER_URL === 'WORKER_URL_TUTAJ') {
-          await new Promise(r => setTimeout(r, 800));
-          typing.classList.remove('visible');
-          addBubble('Asystent nie jest jeszcze skonfigurowany. Właściciel sklepu musi wdrożyć Cloudflare Worker i podać jego adres URL.', 'bot');
-          chatHistory.push({ role: 'assistant', content: '' });
-          sendBtn.disabled = false;
-          return;
-        }
-
         const res = await fetch(CHAT_WORKER_URL + '/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1551,7 +919,7 @@
 
       } catch (err) {
         typing.classList.remove('visible');
-        addBubble('Przepraszam, nie mogę teraz odpowiedzieć. Skontaktuj się ze sklepem bezpośrednio na farbyjachtowe.pl', 'bot');
+        addBubble('Przepraszam, nie mogę teraz odpowiedzieć. Skontaktuj się ze sklepem: 913 508 560 lub sklep@farbyjachtowe.pl', 'bot');
       }
 
       sendBtn.disabled = false;
@@ -1559,63 +927,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('chat-input').addEventListener('keydown', e => {
+      const input = document.getElementById('chat-input');
+      input.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
       });
+      input.focus();
     });
   </script>
-
-  <!-- Chat Widget HTML -->
-  <button id="chat-btn" onclick="toggleChat()" aria-label="Otwórz czat z Izydorem">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6v-2h12v2zm0-3H6V7h12v2z"/>
-    </svg>
-    <span class="chat-badge">?</span>
-  </button>
-
-  <div id="chat-nudge" onclick="openChatFromNudge()">
-    <span class="nudge-close" onclick="dismissNudge(event)" aria-label="Zamknij">×</span>
-    Cześć! 👋 Potrzebujesz pomocy? <strong>Zapytaj mnie</strong> — pomogę w kilka sekund.
-  </div>
-
-  <div id="chat-window" role="dialog" aria-label="Izydor — asystent">
-    <div class="chat-header">
-      <div class="chat-header-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-      </div>
-      <div class="chat-header-text">
-        <h3>Izydor — asystent</h3>
-        <p>farbyjachtowe.pl · odpowiada zwykle w kilka sekund</p>
-      </div>
-      <button class="chat-expand" onclick="toggleMaximize()" id="chat-expand-btn" aria-label="Powiększ">⤢</button>
-      <button class="chat-close" onclick="closeChat()" aria-label="Zamknij">×</button>
-    </div>
-
-    <div class="chat-messages" id="chat-messages">
-      <div class="chat-bubble bot">
-        Cześć! 👋 Jestem <strong>Izydor</strong>, asystent sklepu <strong>farbyjachtowe.pl</strong>.<br><br>
-        Pomogę Ci dobrać odpowiednie farby, lakiery i preparaty do Twojej łodzi. Zapytaj o cokolwiek!
-      </div>
-    </div>
-
-    <div class="chat-typing" id="chat-typing">
-      <span></span><span></span><span></span>
-    </div>
-
-    <div class="chat-input-row">
-      <input
-        type="text"
-        id="chat-input"
-        placeholder="Np. czym doszczelnić śruby napędowe?"
-        autocomplete="off"
-        maxlength="500"
-      >
-      <button id="chat-send" onclick="sendChat()" aria-label="Wyślij">
-        <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-      </button>
-    </div>
-    <p class="chat-disclaimer">Asystent AI może się mylić. W razie wątpliwości skontaktuj się ze sklepem.</p>
-  </div>
 
 </body>
 </html>
