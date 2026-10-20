@@ -401,4 +401,31 @@ Umieszczenie osuszacza (Yachticon Boat Dry 2 kg)
 Prawidłowe mocowanie plandeki
 Postęp: 0/20 zadań wykonanych
 📋 Skopiuj Listę Kontrolną
+
+Malowanie nad linią wodną (burty, pokład, kokpit) — system Epifanes
+Ten poradnik dotyczy malowania części jachtu NAD linią wody: burt, pokładu, kokpitu, nadbudówek. Produkty: Epifanes Epoxy Primer (podkład epoksydowy 2K), Multi Marine Primer (podkład uniwersalny 1K epoksy-estrowy), Poly-urethane Colour (farba nawierzchniowa poliuretanowa 2K, wysoki połysk), Mono-urethane (nawierzchniowa 1K, twarda), Nautiforte (nawierzchniowa 1K z żywicą silikonową, znakomita rozlewność), Nonskid Deckcoating (farba przeciwpoślizgowa), Nonskid Beads (granulat przeciwpoślizgowy), Fiberglass Filler (szpachla poliestrowa), Epoxy Filler 1500 (szpachla epoksydowa 2K), Bilge Paint (farba do zęz), Epifanes Boat Soap, Color Restorer, Poly Boat Wax.
+
+Ochrona żelkotu (profilaktyka, zanim konieczne będzie malowanie): głównym wrogiem żelkotu jest promieniowanie UV (żółknięcie, kruchość, pajączki i pęknięcia) oraz zanieczyszczenia atmosferyczne. Przed sezonem: zmyć luźny brud, odświeżyć kolor preparatem do czyszczenia żelkotu (np. Epifanes Color Restorer), przy złym stanie delikatnie zeszlifować wierzchnią warstwę papierem wodnym gradacji 2000 i wypolerować pastami (średnia, drobna), na końcu zabezpieczyć woskiem z palmowym woskiem Carnauba (BEZ silikonu, np. Poly Boat Wax). Do mycia po woskowaniu używać specjalnego mydła (np. Boat Soap) — zwykłe detergenty typu Ludwik emulgują wosk.
+
+Wybór farby 1K czy 2K: farby dwuskładnikowe (epoksydowe, poliuretanowe) są najtwardsze i najbardziej odporne, ale trudniejsze w aplikacji (ścisłe reżimy mieszania i warunków) i droższe. Jednoskładnikowe są tańsze, łatwiejsze w aplikacji i w poprawkach w kolejnych sezonach, ale mniej odporne mechanicznie.
+
+Malowanie gdy żelkot jest w dobrym stanie (utracił tylko połysk/kolor): zmatowić papierem gradacji 320 na sucho, dobrze odtłuścić i można malować OD RAZU farbą nawierzchniową bez gruntowania. Do wyboru: 2K Poly-urethane Colour albo 1K Mono-urethane lub Nautiforte. Nałożyć 3 warstwy, pierwszą lekko rozcieńczyć (~10%) właściwym rozcieńczalnikiem. Farba poliuretanowa 2K nie wymaga matowienia między warstwami przy odstępach 24–48 godz. Farby 1K po utwardzeniu (24 godz. przy 18°C) lekko zmatowić papierem 400 lub drobniejszym (można na mokro) przed kolejną warstwą.
+
+Aplikacja: najlepsze efekty (lustrzana gładkość) daje wałek gąbkowy o zaokrąglonych końcach, dobry wałek welurowy o krótkim włosiu lub miękki pędzel z długim włosiem. Natrysk w warunkach amatorskich zwykle rozczarowuje (zacieki, „pomarańczowa skórka", zanieczyszczenia). Jachtowe farby nawierzchniowe NIE wymagają zabezpieczania lakierem bezbarwnym.
+
+Malowanie gdy poszycie ma uszkodzenia: najpierw naprawy konstrukcyjne (szczelność, sztywność). Żelkot zmatowić, pęknięcia rozszerzyć aby dało się je zaszpachlować. Zagruntować 2K Epoxy Primer albo 1K Multi Marine Primer (ten po 48 godz. utwardzenia w 18°C może być pokrywany 2K farbą poliuretanową). Szpachlować szpachlówką poliestrową (Fiberglass Filler) lub epoksydową (Epoxy Filler 1500). Szpachlówka poliestrowa jest higroskopijna — po utwardzeniu (30–60 min) pokryć ją farbą nawierzchniową rozcieńczoną w 20% (powłoka izolacyjna chroni przed wnikaniem wilgoci). Podkłady wyrównują drobne nierówności i dają głęboki, równomierny kolor.
+
+Powierzchnie przeciwpoślizgowe na pokładzie: dwie ostatnie warstwy nawierzchniówki zastąpić farbą Nonskid Deckcoating, albo do dwóch ostatnich warstw Poly-urethane/Mono-urethane dodać granulki Nonskid Beads. Nakładać wałkiem, nie obciążać powierzchni przez 72 godz. Zęzy, komory silnika, bakisty: zabezpieczyć Epoxy Primer, a gdy trudno dobrze odtłuścić — podkład Multi Marine Primer + nawierzchniowo 1K Bilge Paint.
+
+Malowanie podwodnej części jachtu z laminatu (pod linią wody) — system Epifanes
+Ten poradnik dotyczy malowania części PODWODNEJ (pod linią wody) kadłuba z laminatu. Produkty: Epifanes Interimcoat (podkład epoksydowy nad i pod linię wodną), Epoxy HB Coat (podkład epoksydowy grubopowłokowy), Epoxy Filler 1500 (szpachla epoksydowa 2K), Antifouling Foul Away (farba przeciwporostowa samopolerująca), Thinner D-601 (rozcieńczalnik do produktów epoksydowych), Thinner D-100 (rozcieńczalnik do farb przeciwporostowych).
+
+Przygotowanie powierzchni jest kluczem. Laminat poliestrowy można malować po czterech tygodniach od jego wytworzenia. Prace zacząć od umycia ciepłą wodą z detergentem (usunąć rozpuszczalne w wodzie zanieczyszczenia), po wyschnięciu odtłuścić i wytrzeć, często zmieniając szmatki/ręczniki, aby nie wetrzeć brudu przy późniejszym szlifowaniu.
+
+Do malowania kadłubów z laminatu POD linią wody przeznaczone są dwuskładnikowe farby epoksydowe (podkład), które następnie pokrywa się farbami przeciwporostowymi (antifouling). Ubytki i rysy pod linią wody wypełnić szpachlą epoksydową Epoxy Filler 1500 i po utwardzeniu wygładzić. UWAGA: pod linią wody NIE wolno używać szpachlówek poliestrowych. Po wyrównaniu dna przeszlifować suchym papierem gradacji 180–220 i ponownie oczyścić.
+
+Lekki system (gdy laminat jest w dobrym stanie): podkład epoksydowy (np. Epoxy HB Coat lub Interimcoat) + farba przeciwporostowa (np. Foul Away). Dla maksymalnej ochrony przed osmozą stosuje się rozbudowany system antyosmozowy (Osmosis prevention), a przy istniejących uszkodzeniach osmozowych — system naprawy osmozy (Osmosis repair).
+
+Instrukcja aplikacji szpachlówki epoksydowej uniwersalnej — SEA-LINE
+Dotyczy produktów: SEA-LINE Epoxy Filler Universal (szpachlówka epoksydowa uniwersalna) i SEA-LINE Cleaner (zmywacz do odtłuszczania). Kolejność prac: 1) powierzchnię oszlifować papierem ściernym P120–P240; 2) odmuchać z pyłu i kurzu; 3) dokładnie oczyścić dedykowanym preparatem myjącym (np. Cleaner Sea-Line); 4) odmierzyć proporcje składników: objętościowo 2:1, wagowo 100:44; 5) mieszać do uzyskania jednolitej barwy; 6) czas aplikacji mieszaniny: 10 minut od zakończenia mieszania; 7) czas utwardzania: 5 godzin w temp. +20°C (niższa temperatura wydłuża utwardzanie). WAŻNE: minimalna temperatura utwardzania to +10°C — poniżej proces polimeryzacji zatrzymuje się i szpachlówka nie utwardzi się. Po utwardzeniu szlifować zgrubnie papierem P80–P120, a wykończeniowo P120–P240.
 `;
