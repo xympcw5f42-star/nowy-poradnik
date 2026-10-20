@@ -428,4 +428,36 @@ Lekki system (gdy laminat jest w dobrym stanie): podkład epoksydowy (np. Epoxy 
 
 Instrukcja aplikacji szpachlówki epoksydowej uniwersalnej — SEA-LINE
 Dotyczy produktów: SEA-LINE Epoxy Filler Universal (szpachlówka epoksydowa uniwersalna) i SEA-LINE Cleaner (zmywacz do odtłuszczania). Kolejność prac: 1) powierzchnię oszlifować papierem ściernym P120–P240; 2) odmuchać z pyłu i kurzu; 3) dokładnie oczyścić dedykowanym preparatem myjącym (np. Cleaner Sea-Line); 4) odmierzyć proporcje składników: objętościowo 2:1, wagowo 100:44; 5) mieszać do uzyskania jednolitej barwy; 6) czas aplikacji mieszaniny: 10 minut od zakończenia mieszania; 7) czas utwardzania: 5 godzin w temp. +20°C (niższa temperatura wydłuża utwardzanie). WAŻNE: minimalna temperatura utwardzania to +10°C — poniżej proces polimeryzacji zatrzymuje się i szpachlówka nie utwardzi się. Po utwardzeniu szlifować zgrubnie papierem P80–P120, a wykończeniowo P120–P240.
+
+Instrukcja aplikacji szpachlówki epoksydowej z włóknem szklanym — SEA-LINE
+Dotyczy produktów: SEA-LINE Epoxy Filler Fibreglass (szpachlówka epoksydowa z włóknem szklanym, do większych ubytków i wzmocnień) oraz SEA-LINE Cleaner (zmywacz do odtłuszczania). Kolejność prac: 1) powierzchnię oszlifować papierem ściernym P120–P240; 2) odmuchać z pyłu i kurzu; 3) dokładnie oczyścić preparatem myjącym (np. Cleaner Sea-Line); 4) odmierzyć proporcje składników: objętościowo 1:1, wagowo 100:50; 5) mieszać do jednolitej barwy; 6) czas aplikacji mieszaniny: 25 minut od zakończenia mieszania; 7) czas utwardzania: 24 godziny w temp. +20°C (niższa temperatura wydłuża). WAŻNE: minimalna temperatura utwardzania +10°C — poniżej szpachlówka się nie utwardzi. Po utwardzeniu szlifować zgrubnie P80–P120, wykończeniowo P120–P240.
+
+Klejenie paneli pokładowych i powierzchni pokładu — system Sika
+Drewniane pokrycie pokładu robi się dziś często z prefabrykowanych paneli (sklejka z wierzchnią warstwą teaku lub sosny Oregon, np. Sotimarine; klepki tikowe z gumą bez sklejki, np. Sotiflex; lub panele z klepek łączonych włóknem szklanym nasyconym żywicą). Klej jest wodoodporny i nakładany na całą powierzchnię pokładu — spoina działa jak dodatkowe poszycie chroniące przed wodą i korozją, więc panele zwykle nie wymagają mocowań mechanicznych.
+Przygotowanie podłoża zależy od materiału pokładu:
+- Pokład z drewna: zeszlifować papierem ściernym 80/100, usunąć pył odkurzaczem, nałożyć czystym pędzlem cienką warstwę podkładu Sika Primer-290 DC (schnięcie min 60 min, max 24 h).
+- Pokład z aluminium lub stali pokryty dwuskładnikowym lakierem: oczyścić podłoże środkiem Sika Cleaner-205 czystą, bezpyłową szmatką (schnięcie min 10 min, max 2 h).
+- Pokład z paneli epoksydowych / GRP: lekko zeszlifować drobnoziarnistym papierem i odkurzyć, oczyścić Sika Cleaner-205, następnie nałożyć cienką warstwę podkładu Sika Primer-215 lub Primer-206 G+P (schnięcie min 30 min, max 24 h).
+- Mocno zabrudzone powierzchnie wstępnie umyć rozpuszczalnikiem Sika Remover-208.
+Nakładanie kleju: na powierzchnie równe Sikaflex-298, na powierzchnie pochyłe Sikaflex-291. Nakładać packą zębatą (trójkątne wycięcia 4 mm); zużycie ok. 1–2 litry kleju na 1 m². Panel dopasować do konstrukcji i w ciągu 20 minut od nałożenia kleju docisnąć mocno. Ślady nieutwardzonego kleju usuwać wyłącznie zmywaczem Sika Remover-208 (NIGDY Sika Cleaner-205 ani innych środków). Na czas utwardzania użyć zacisków, ciężarków, śrub (usuwanych po utwardzeniu) lub metody próżniowej. Po ok. 24 godzinach panele wytrzymują pełne obciążenie i można usunąć tymczasowe mocowania.
+
+Klejenie listew odbojowych i odbijaczy — system Sika
+Listwy odbojowe i odbijacze chronią kadłub przed uszkodzeniami, działając jak zderzaki; im bardziej elastyczne, tym lepiej amortyzują, a elastyczny klej dodatkowo poprawia ochronę. Klejona powierzchnia listwy nie może zawierać środków antyadhezyjnych ani zanieczyszczeń.
+Przygotowanie podłoża:
+- Listwy z drewna: zeszlifować papierem 80/100, odkurzyć, nałożyć podkład Sika Primer-290 DC (60 min – 24 h).
+- Kadłub z GRP (laminat): zeszlifować gruboziarnistym papierem 60/80 dla szorstkości, oczyścić Sika Cleaner-205 (10 min – 2 h); mocno zabrudzone wstępnie umyć Sika Remover-208.
+- Listwy formowane z PVC lub poliuretanu: lekko zeszlifować drobnoziarnistym papierem, odkurzyć, nałożyć Sika Primer-215 lub Primer-206 G+P (30 min – 24 h).
+- Kadłub aluminiowy lub stalowy malowany dwuskładnikowym lakierem: oczyścić Sika Cleaner-205 (10 min – 2 h).
+Klejenie: listwy z drewna, PVC lub poliuretanu przyklejać materiałem Sikaflex-292 (lub Sikaflex-291, jeśli listwa ma być dodatkowo mocowana mechanicznie). Ustawić elastyczne podkładki dystansowe (grubość 2 mm, twardość ok. 50 Shore A). Nałożyć klej w formie trójkątnej spoiny 8 mm x 10 mm, a elementy dołożyć w ciągu 20 minut. Docisnąć listwę i przytrzymać zaciskami na czas utwardzania. Przy mocowaniu mechanicznym wszystkie otwory śrub uszczelnić Sikaflex-291. Zaciski usunąć po 24 godzinach; pełną wytrzymałość klej osiąga po 7 dniach. Ślady nieutwardzonego kleju usuwać Sika Remover-208 (nie Cleaner-205). Alternatywa dla listew przykręcanych: wypełnić tylny profil listwy Sikaflex-291 — amortyzuje naprężenia i uszczelnia otwory śrub.
+
+Mocowanie i uszczelnianie osprzętu i drobnych elementów metalowych — system Sika
+Każdy osprzęt pokładowy i drobne elementy metalowe muszą być zamocowane całkowicie wodoszczelnie — słabe uszczelnienie grozi korozją metalu, osmozą i nieszczelnościami.
+- Osprzęt pod małe naprężenia (wentylatory, taśmy wykończeniowe itp.) — wystarczy uszczelnić i zabezpieczyć przed wodą materiałem Sikaflex-291.
+- Osprzęt pod duże naprężenia mechaniczne (wantowniki, windy, rolki prowadzące) — stosować Sikaflex-291 lub Sikaflex-292 ZAWSZE z dodatkowym mocowaniem mechanicznym.
+Przygotowanie podłoża:
+- Pokład z drewna: zmatowić papierem 80/100, odkurzyć, nałożyć Sika Primer-290 DC (60 min – 24 h).
+- Pokład z aluminium (malowany): oczyścić Sika Cleaner-205 (10 min – 2 h).
+- Osprzęt aluminiowy: lekko zmatowić drobnoziarnistym papierem (Scotch Brite M 600), oczyścić Sika Cleaner-205, nałożyć Sika Primer-210 T (30 min – 24 h).
+- Osprzęt z brązu, mosiądzu i stali nierdzewnej: oczyścić Sika Cleaner-205 (10 min – 2 h).
+Montaż: nakładać Sikaflex-292 na klejoną powierzchnię oraz w otwory śrub mocujących. Aby klej nie wyciskał się na zewnątrz przy dokręcaniu, umieścić pod osprzętem podkładki dystansowe ok. 1 mm z otworem na śrubę; otwory śrub też wypełnić uszczelniaczem. Warto zostawić 2–3 mm przestrzeni między krawędzią osprzętu a pokładem (ułatwia późniejszy demontaż). Śruby dokręcić tylko do podkładek dystansowych (nie dalej), nadmiar kleju usunąć plastikową szpatułką, a po 24 godzinach dokręcić śruby. Ślady nieutwardzonego kleju Sika usuwać zmywaczem Sika Remover-208 (nie Cleaner-205).
 `;
