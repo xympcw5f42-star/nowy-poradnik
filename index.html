@@ -819,6 +819,48 @@
       display: block;
     }
 
+    /* Formularz kontaktowy w czacie */
+    .contact-form {
+      align-self: flex-start;
+      max-width: 88%;
+      background: #fff8f0;
+      border: 1px solid #f3d5ad;
+      border-radius: 14px;
+      padding: 14px;
+      margin: 2px 0;
+    }
+    .contact-form h4 { font-size: 13px; color: #0d2d5e; margin-bottom: 10px; }
+    .contact-form label { display: block; font-size: 11.5px; color: #3a5f85; margin: 8px 0 3px; }
+    .contact-form input {
+      width: 100%;
+      border: 1.5px solid #e2c6a0;
+      border-radius: 9px;
+      padding: 8px 11px;
+      font-size: 13.5px;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+    }
+    .contact-form input:focus { border-color: #f7941d; }
+    .contact-form .cf-row { display: flex; gap: 10px; }
+    .contact-form .cf-row > div { flex: 1; }
+    .contact-form .cf-send {
+      margin-top: 12px;
+      width: 100%;
+      background: linear-gradient(135deg, #f7941d, #e07b0a);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .contact-form .cf-send:hover { filter: brightness(1.05); }
+    .contact-form .cf-send:disabled { background: #ccc; cursor: not-allowed; }
+    .contact-form .cf-err { color: #c0392b; font-size: 11.5px; margin-top: 8px; min-height: 14px; }
+
     .chat-disclaimer {
       font-size: 10px;
       color: #9ab0c5;
@@ -1066,6 +1108,52 @@
       if (fileInput) fileInput.value = '';
     }
 
+    // ── Formularz kontaktowy w czacie ──
+    function renderContactForm() {
+      const msgs = document.getElementById('chat-messages');
+      const form = document.createElement('div');
+      form.className = 'contact-form';
+      form.innerHTML =
+        '<h4>📋 Zostaw dane — oddzwonimy</h4>' +
+        '<div class="cf-row">' +
+          '<div><label>Telefon</label><input type="tel" class="cf-phone" placeholder="np. 500 600 700"></div>' +
+          '<div><label>E-mail</label><input type="email" class="cf-email" placeholder="np. jan@poczta.pl"></div>' +
+        '</div>' +
+        '<label>Numer zamówienia (jeśli dotyczy)</label>' +
+        '<input type="text" class="cf-order" placeholder="np. 12345">' +
+        '<button type="button" class="cf-send">Wyślij do sklepu</button>' +
+        '<div class="cf-err"></div>';
+      msgs.appendChild(form);
+      msgs.scrollTop = msgs.scrollHeight;
+      form.querySelector('.cf-send').addEventListener('click', () => submitLead(form));
+    }
+
+    async function submitLead(form) {
+      const phone = form.querySelector('.cf-phone').value.trim();
+      const email = form.querySelector('.cf-email').value.trim();
+      const orderNo = form.querySelector('.cf-order').value.trim();
+      const err = form.querySelector('.cf-err');
+      const btn = form.querySelector('.cf-send');
+      if (!phone && !email) { err.textContent = 'Podaj telefon lub e-mail.'; return; }
+      err.textContent = '';
+      btn.disabled = true; btn.textContent = 'Wysyłanie…';
+      try {
+        const res = await fetch(CHAT_WORKER_URL + '/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId: chatSessionId, phone, email, orderNo })
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        form.remove();
+        const confirm = 'Dziękuję! ✅ Przekazałem Twoje dane do sklepu — specjalista odezwie się wkrótce. W pilnej sprawie możesz też zadzwonić: 913 508 560.';
+        addBubble(confirm, 'bot');
+        logMsg('bot', confirm, null);
+      } catch (e) {
+        err.textContent = 'Nie udało się wysłać. Zadzwoń: 913 508 560.';
+        btn.disabled = false; btn.textContent = 'Wyślij do sklepu';
+      }
+    }
+
     async function sendChat() {
       const input = document.getElementById('chat-input');
       const sendBtn = document.getElementById('chat-send');
@@ -1100,10 +1188,17 @@
 
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
-        const reply = data.reply || 'Przepraszam, wystąpił błąd. Spróbuj ponownie.';
+        let reply = data.reply || 'Przepraszam, wystąpił błąd. Spróbuj ponownie.';
+
+        // Znacznik [[KONTAKT]] = pokaż formularz kontaktowy pod odpowiedzią
+        const wantsContact = /\[\[KONTAKT\]\]/i.test(reply);
+        reply = reply.replace(/\[\[KONTAKT\]\]/ig, '').trim();
+
         addBubble(reply, 'bot');
         logMsg('bot', reply, null);
         chatHistory.push({ role: 'assistant', content: reply });
+
+        if (wantsContact) renderContactForm();
 
       } catch (err) {
         typing.classList.remove('visible');

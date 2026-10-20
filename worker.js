@@ -38,8 +38,9 @@ ZASADY:
 
 SPRAWY SKLEPOWE (zamówienia, dostępność, dostawa — NIE zgaduj, zbierz kontakt):
 - Nie masz dostępu do systemu sklepu. NIE znasz: stanów magazynowych i dostępności towaru, statusu/zmian zamówień, terminów i kosztów dostawy, płatności, faktur, reklamacji, zwrotów, aktualnych promocji. NIGDY nie zgaduj ani nie wymyślaj tych informacji i nie podawaj konkretnych terminów.
-- Gdy klient pyta o taką sprawę (np. "czy macie X na stanie", "kiedy dotrze moje zamówienie", "chcę zwrócić/reklamować"), odpowiedz mniej więcej tak: przekażę Twoje zapytanie do sklepu i specjalista skontaktuje się z Tobą w tej sprawie. Następnie POPROŚ klienta, aby zostawił w czacie swój numer telefonu i adres e-mail, żebyśmy mogli się z nim skontaktować.
-- Jeśli sprawa dotyczy konkretnego ZAMÓWIENIA (status, zmiana, reklamacja, zwrot) — poproś dodatkowo o NUMER ZAMÓWIENIA, obok telefonu i e-maila.
+- Gdy klient pyta o taką sprawę (np. "czy macie X na stanie", "kiedy dotrze moje zamówienie", "chcę zwrócić/reklamować"), odpowiedz krótko, że przekażesz zapytanie do sklepu i specjalista się skontaktuje, i poproś o dane kontaktowe.
+- WAŻNE: gdy prosisz o dane kontaktowe w sprawie sklepowej, zakończ swoją wiadomość DOKŁADNIE znacznikiem [[KONTAKT]] w nowej linii. System pokaże wtedy klientowi wygodny formularz (telefon, e-mail, numer zamówienia) do wypełnienia. Nie opisuj czym jest ten znacznik i nie używaj go w żadnej innej sytuacji.
+- Nie wypisuj wtedy ręcznie listy pól — wystarczy krótkie zdanie + znacznik [[KONTAKT]].
 - Gdy klient poda numer i/lub e-mail — podziękuj i potwierdź, że przekazujesz sprawę do sklepu i ktoś się odezwie. (Dane zapisują się automatycznie — nie musisz nic więcej robić.)
 - Zawsze podaj też dane kontaktowe sklepu, gdyby klient wolał odezwać się sam: 📞 913 508 560 | ✉️ sklep@farbyjachtowe.pl
 - Pytania czysto produktowe/techniczne (dobór farby, sposób aplikacji) obsługuj normalnie jak dotychczas — zbieranie kontaktu dotyczy tylko spraw sklepowych, których nie znasz.
@@ -116,6 +117,9 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === '/chat' && request.method === 'POST') {
       return handleChat(request, env);
+    }
+    if (url.pathname === '/lead' && request.method === 'POST') {
+      return handleLead(request, env);
     }
     if (url.pathname === '/admin') {
       return handleAdmin(url, env);
@@ -205,6 +209,43 @@ async function handleChat(request, env) {
 
   } catch (err) {
     console.error('handleChat error:', err);
+    return jsonResponse({ error: 'Błąd serwera' }, 500);
+  }
+}
+
+// Zgłoszenie kontaktowe z formularza (telefon, e-mail, nr zamówienia) — zapis do KV (widoczne w /admin)
+async function handleLead(request, env) {
+  try {
+    const body = await request.json();
+    const clean = (v, max) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
+    const phone = clean(body.phone, 40);
+    const email = clean(body.email, 120);
+    const orderNo = clean(body.orderNo, 60);
+    const note = clean(body.note, 300);
+
+    if (!phone && !email) {
+      return jsonResponse({ error: 'Podaj telefon lub e-mail' }, 400);
+    }
+
+    if (env.CONVERSATIONS) {
+      const sessionId = typeof body.sessionId === 'string' ? body.sessionId.slice(0, 36) : 'unknown';
+      const ts = new Date().toISOString();
+      const key = `msg:${ts}:${sessionId.slice(0, 8)}`;
+      const parts = ['📋 PROŚBA O KONTAKT'];
+      if (phone) parts.push('tel: ' + phone);
+      if (email) parts.push('e-mail: ' + email);
+      if (orderNo) parts.push('nr zamówienia: ' + orderNo);
+      if (note) parts.push('sprawa: ' + note);
+      await env.CONVERSATIONS.put(key, JSON.stringify({
+        ts, sessionId,
+        user: parts.join(' | '),
+        bot: '(dane kontaktowe od klienta — do oddzwonienia)',
+      }), { expirationTtl: 60 * 60 * 24 * 90 });
+    }
+
+    return jsonResponse({ ok: true });
+  } catch (err) {
+    console.error('handleLead error:', err);
     return jsonResponse({ error: 'Błąd serwera' }, 500);
   }
 }
