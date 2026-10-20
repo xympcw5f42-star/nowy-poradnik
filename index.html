@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poradnik Malowania Jachtów</title>
+  <title>Inteligentny asystent sklepu farbyjachtowe.pl</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -763,6 +763,46 @@
     .chat-input-row button svg { width: 18px; height: 18px; fill: #fff; }
     .chat-input-row button:disabled { background: #ccc; cursor: not-allowed; }
 
+    /* Przycisk załączania zdjęcia */
+    .chat-input-row button.chat-attach { background: #eaf3fc; }
+    .chat-input-row button.chat-attach:hover { background: #d9e9f9; }
+    .chat-input-row button.chat-attach svg { fill: #1a5fa8; width: 20px; height: 20px; }
+
+    /* Podgląd załączonego zdjęcia */
+    .chat-preview {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px 0;
+    }
+    .chat-preview.show { display: flex; }
+    .chat-preview img {
+      width: 46px; height: 46px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #c8dff5;
+      flex-shrink: 0;
+    }
+    .chat-preview .pv-name {
+      font-size: 12px; color: #3a5f85;
+      flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .chat-preview .pv-remove {
+      background: #0d2d5e; color: #fff;
+      border: none; border-radius: 50%;
+      width: 24px; height: 24px;
+      cursor: pointer; font-size: 14px; line-height: 1;
+      flex-shrink: 0;
+    }
+
+    /* Miniatura zdjęcia w dymku rozmowy */
+    .chat-bubble img.bubble-img {
+      max-width: 200px; max-height: 200px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
     .chat-disclaimer {
       font-size: 10px;
       color: #9ab0c5;
@@ -784,7 +824,7 @@
     <a class="header-logo" href="https://www.farbyjachtowe.pl" target="_blank">
       <img src="https://www.farbyjachtowe.pl/images/banners/cms%20baner.png" alt="farbyjachtowe.pl">
     </a>
-    <h1>Poradnik malowania łodzi z interaktywnym asystentem</h1>
+    <h1>Inteligentny asystent sklepu farbyjachtowe.pl</h1>
   </header>
 
   <main>
@@ -810,7 +850,17 @@
         <span></span><span></span><span></span>
       </div>
 
+      <div class="chat-preview" id="chat-preview">
+        <img id="chat-preview-img" alt="Podgląd zdjęcia">
+        <span class="pv-name" id="chat-preview-name"></span>
+        <button class="pv-remove" type="button" onclick="removeImage()" aria-label="Usuń zdjęcie">×</button>
+      </div>
+
       <div class="chat-input-row">
+        <input type="file" id="chat-file" accept="image/*" hidden>
+        <button type="button" class="chat-attach" onclick="document.getElementById('chat-file').click()" aria-label="Dodaj zdjęcie" title="Dodaj zdjęcie">
+          <svg viewBox="0 0 24 24"><path d="M16.5 6v11.5a4 4 0 0 1-8 0V5a2.5 2.5 0 0 1 5 0v10.5a1 1 0 0 1-2 0V6H10v9.5a2.5 2.5 0 0 0 5 0V5a4 4 0 0 0-8 0v12.5a5.5 5.5 0 0 0 11 0V6h-1.5z"/></svg>
+        </button>
         <input
           type="text"
           id="chat-input"
@@ -866,11 +916,17 @@
     const chatHistory = [];
     const chatSessionId = (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2));
 
-    function addBubble(text, role) {
+    // Załączone zdjęcie oczekujące na wysłanie: { data (base64 bez prefiksu), media_type, dataUrl }
+    let pendingImage = null;
+
+    function addBubble(text, role, imageUrl) {
       const msgs = document.getElementById('chat-messages');
       const bubble = document.createElement('div');
       bubble.className = 'chat-bubble ' + role;
-      bubble.innerHTML = formatMessage(text);
+      let html = '';
+      if (imageUrl) html += '<img class="bubble-img" src="' + imageUrl + '" alt="zdjęcie">';
+      if (text) html += formatMessage(text);
+      bubble.innerHTML = html;
       msgs.appendChild(bubble);
       msgs.scrollTop = msgs.scrollHeight;
       return bubble;
@@ -885,28 +941,78 @@
         .replace(/\n/g, '<br>');
     }
 
+    // ── Obsługa zdjęć ──
+    function handleFile(file) {
+      if (!file || !file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          // Zmniejsz do maks. 1024 px na dłuższym boku (mniejszy payload, mniej tokenów)
+          const MAX = 1024;
+          let { width, height } = img;
+          if (width > MAX || height > MAX) {
+            if (width >= height) { height = Math.round(height * MAX / width); width = MAX; }
+            else { width = Math.round(width * MAX / height); height = MAX; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          const base64 = dataUrl.split(',')[1];
+          if (base64.length > 4500000) { // ~3,3 MB zdjęcia
+            alert('Zdjęcie jest za duże. Spróbuj mniejsze.');
+            return;
+          }
+          pendingImage = { data: base64, media_type: 'image/jpeg', dataUrl };
+          document.getElementById('chat-preview-img').src = dataUrl;
+          document.getElementById('chat-preview-name').textContent = file.name || 'zdjęcie.jpg';
+          document.getElementById('chat-preview').classList.add('show');
+          document.getElementById('chat-input').focus();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+      pendingImage = null;
+      document.getElementById('chat-preview').classList.remove('show');
+      document.getElementById('chat-preview-img').src = '';
+      const fileInput = document.getElementById('chat-file');
+      if (fileInput) fileInput.value = '';
+    }
+
     async function sendChat() {
       const input = document.getElementById('chat-input');
       const sendBtn = document.getElementById('chat-send');
       const typing = document.getElementById('chat-typing');
       const msg = input.value.trim();
-      if (!msg) return;
+      const image = pendingImage;
+      if (!msg && !image) return;
 
       input.value = '';
       sendBtn.disabled = true;
-      addBubble(msg, 'user');
+      addBubble(msg, 'user', image ? image.dataUrl : null);
+      removeImage();
 
       const historyToSend = chatHistory.slice(-10);
-      chatHistory.push({ role: 'user', content: msg });
+      chatHistory.push({ role: 'user', content: msg || '[zdjęcie]' });
 
       typing.classList.add('visible');
       document.getElementById('chat-messages').scrollTop = 99999;
 
       try {
+        const payload = { message: msg, history: historyToSend, sessionId: chatSessionId };
+        if (image) payload.image = { data: image.data, media_type: image.media_type };
+
         const res = await fetch(CHAT_WORKER_URL + '/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg, history: historyToSend, sessionId: chatSessionId })
+          body: JSON.stringify(payload)
         });
 
         typing.classList.remove('visible');
@@ -931,6 +1037,12 @@
       input.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
       });
+      const fileInput = document.getElementById('chat-file');
+      if (fileInput) {
+        fileInput.addEventListener('change', e => {
+          if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]);
+        });
+      }
       input.focus();
     });
   </script>

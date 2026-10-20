@@ -114,14 +114,36 @@ export default {
 async function handleChat(request, env) {
   try {
     const body = await request.json();
-    const message = body?.message?.trim();
-    if (!message) return jsonResponse({ error: 'Brak wiadomości' }, 400);
+    const message = body?.message?.trim() || '';
+
+    // Walidacja opcjonalnego zdjęcia
+    const ALLOWED_MEDIA = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    let image = null;
+    if (body.image && typeof body.image.data === 'string' && ALLOWED_MEDIA.includes(body.image.media_type)) {
+      if (body.image.data.length > 7000000) { // ~5 MB w base64
+        return jsonResponse({ error: 'Zdjęcie za duże' }, 400);
+      }
+      image = { media_type: body.image.media_type, data: body.image.data };
+    }
+
+    if (!message && !image) return jsonResponse({ error: 'Brak wiadomości' }, 400);
     if (message.length > 500) return jsonResponse({ error: 'Wiadomość za długa' }, 400);
 
     const history = (Array.isArray(body.history) ? body.history : [])
       .slice(-6)
       .filter(h => h?.role && typeof h?.content === 'string')
       .map(h => ({ role: h.role, content: h.content }));
+
+    // Treść bieżącej wiadomości: tekst, a gdy jest zdjęcie — blok obrazu + tekst
+    let userContent;
+    if (image) {
+      userContent = [
+        { type: 'image', source: { type: 'base64', media_type: image.media_type, data: image.data } },
+        { type: 'text', text: message || 'Obejrzyj to zdjęcie (np. kadłub, powłoka, uszkodzenie) i doradź po polsku, jakie produkty i kroki zastosować. Jeśli czegoś nie da się jednoznacznie ocenić ze zdjęcia — powiedz i poproś o kontakt ze sklepem.' }
+      ];
+    } else {
+      userContent = message;
+    }
 
     const anthropicRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -140,7 +162,7 @@ async function handleChat(request, env) {
             cache_control: { type: 'ephemeral' }
           }
         ],
-        messages: [...history, { role: 'user', content: message }],
+        messages: [...history, { role: 'user', content: userContent }],
       }),
     });
 
@@ -160,7 +182,7 @@ async function handleChat(request, env) {
       const key = `msg:${ts}:${sessionId.slice(0, 8)}`;
       await env.CONVERSATIONS.put(key, JSON.stringify({
         ts, sessionId,
-        user: message,
+        user: (image ? '📷 [zdjęcie] ' : '') + message,
         bot: reply,
       }), { expirationTtl: 60 * 60 * 24 * 90 }); // przechowuj 90 dni
     }
