@@ -276,22 +276,36 @@ async function handleAdmin(url, env) {
     sessions.get(sid).push(item);
   }
 
-  const rows = [...sessions.entries()].map(([sid, msgs]) => {
-    const first = msgs[msgs.length - 1];
+  const isLead = (m) => typeof m?.user === 'string' && m.user.startsWith('📋 PROŚBA O KONTAKT');
+
+  let leadCount = 0;
+  const sessionRows = [...sessions.entries()].map(([sid, msgs]) => {
     const last = msgs[0];
     const date = new Date(last.ts).toLocaleString('pl-PL');
     const count = msgs.length;
-    const preview = msgs[msgs.length - 1].user.slice(0, 80);
+    const leadMsgs = msgs.filter(isLead);
+    const hasLead = leadMsgs.length > 0;
+    if (hasLead) leadCount++;
+    // Dla rozmów z kontaktem pokaż od razu dane w nagłówku, inaczej początek rozmowy
+    const preview = hasLead
+      ? esc(leadMsgs[0].user)
+      : esc(msgs[msgs.length - 1].user.slice(0, 80));
     const detail = msgs.map(m =>
-      `<div class="msg u"><b>Klient:</b> ${esc(m.user)}</div>` +
+      `<div class="msg u${isLead(m) ? ' lead' : ''}"><b>Klient:</b> ${esc(m.user)}</div>` +
       `<div class="msg b"><b>Asystent:</b> ${esc(m.bot)}</div>`
     ).join('');
-    return `
-      <details>
-        <summary><span class="date">${date}</span> — ${esc(preview)}${count > 1 ? ` <em>(${count} wiad.)</em>` : ''}</summary>
+    const badge = hasLead ? '<span class="badge-lead">📋 KONTAKT</span>' : '';
+    const html = `
+      <details class="${hasLead ? 'has-lead' : ''}">
+        <summary>${badge}<span class="date">${date}</span> — ${preview}${count > 1 ? ` <em>(${count} wiad.)</em>` : ''}</summary>
         <div class="conv">${detail}</div>
       </details>`;
-  }).join('');
+    return { html, hasLead, ts: last.ts };
+  });
+
+  // Najpierw rozmowy z danymi kontaktowymi, w obu grupach najnowsze u góry
+  sessionRows.sort((a, b) => (Number(b.hasLead) - Number(a.hasLead)) || (new Date(b.ts) - new Date(a.ts)));
+  const rows = sessionRows.map(r => r.html).join('');
 
   const html = `<!DOCTYPE html><html lang="pl"><head><meta charset="UTF-8">
 <title>Rozmowy — farbyjachtowe.pl</title>
@@ -308,10 +322,15 @@ async function handleAdmin(url, env) {
   .msg { padding: 8px 12px; border-radius: 8px; margin: 8px 0; font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
   .u { background: #f0f7ff; border-left: 3px solid #1a5fa8; }
   .b { background: #fff8f0; border-left: 3px solid #f7941d; }
+  .msg.u.lead { background: #fff1dd; border-left-color: #f7941d; font-weight: 600; }
   p.info { color: #666; font-size: 13px; }
+  details.has-lead { border: 2px solid #f7941d; box-shadow: 0 2px 16px rgba(247,148,29,.28); }
+  details.has-lead summary { background: #fff6ec; }
+  .badge-lead { display: inline-block; background: #f7941d; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; margin-right: 8px; }
+  .lead-count { color: #e07b0a; font-weight: 700; }
 </style></head><body>
 <h1>💬 Rozmowy z asystentem</h1>
-<p class="info">Łącznie sesji: <strong>${sessions.size}</strong> · Wiadomości: <strong>${items.filter(Boolean).length}</strong> · Ostatnie 90 dni</p>
+<p class="info">Łącznie sesji: <strong>${sessions.size}</strong> · Wiadomości: <strong>${items.filter(Boolean).length}</strong> · <span class="lead-count">📋 Z danymi kontaktowymi: ${leadCount}</span> · Ostatnie 90 dni</p>
 ${rows || '<p>Brak rozmów.</p>'}
 </body></html>`;
 
