@@ -659,6 +659,22 @@
     .chat-header-icon svg { width: 20px; height: 20px; fill: #f7941d; }
     .chat-header-text h3 { font-size: 14px; font-weight: 700; color: #0d2d5e; }
     .chat-header-text p { font-size: 11px; color: #3a5f85; margin-top: 1px; }
+    .chat-actions { margin-left: auto; display: flex; gap: 6px; flex-shrink: 0; }
+    .chat-actions button {
+      background: rgba(13,45,94,0.06);
+      border: 1px solid rgba(13,45,94,0.14);
+      color: #0d2d5e;
+      border-radius: 8px;
+      font-size: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+    }
+    .chat-actions button:hover { background: rgba(13,45,94,0.13); }
+    @media (max-width: 600px) {
+      .chat-actions button { padding: 6px 8px; font-size: 11px; }
+    }
     .chat-close {
       margin-left: auto;
       background: none;
@@ -837,6 +853,10 @@
           <h3>Izydor — interaktywny asystent</h3>
           <p>farbyjachtowe.pl · odpowiada zwykle w kilka sekund</p>
         </div>
+        <div class="chat-actions">
+          <button type="button" onclick="downloadTranscript()" title="Zapisz rozmowę do pliku">⤓ Zapisz</button>
+          <button type="button" onclick="clearTranscript()" title="Wyczyść rozmowę">🗑</button>
+        </div>
       </div>
 
       <div class="chat-messages" id="chat-messages">
@@ -919,6 +939,66 @@
     // Załączone zdjęcie oczekujące na wysłanie: { data (base64 bez prefiksu), media_type, dataUrl }
     let pendingImage = null;
 
+    // ── Zapamiętywanie rozmowy (przeżywa odświeżenie strony) ──
+    const STORAGE_KEY = 'izydor_chat_v1';
+    let transcript = [];
+
+    function persist() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(transcript));
+      } catch (e) {
+        // np. przekroczony limit przez zdjęcia — zapisz bez obrazów
+        try {
+          const noImg = transcript.map(m => ({ role: m.role, text: m.text || (m.img ? '[zdjęcie]' : '') }));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(noImg));
+        } catch (_) {}
+      }
+    }
+
+    function logMsg(role, text, img) {
+      transcript.push({ role, text: text || '', img: img || null });
+      persist();
+    }
+
+    function restoreTranscript() {
+      let saved = null;
+      try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (_) {}
+      if (!Array.isArray(saved) || saved.length === 0) return;
+      transcript = saved;
+      const msgs = document.getElementById('chat-messages');
+      msgs.innerHTML = ''; // usuń domyślne powitanie, pokaż zapisaną rozmowę
+      for (const m of saved) {
+        addBubble(m.text, m.role, m.img);
+        if (m.role === 'user') chatHistory.push({ role: 'user', content: m.text || '[zdjęcie]' });
+        else if (m.role === 'bot') chatHistory.push({ role: 'assistant', content: m.text || '' });
+      }
+    }
+
+    function downloadTranscript() {
+      if (!transcript.length) { alert('Rozmowa jest pusta.'); return; }
+      const lines = transcript.map(m => {
+        const who = m.role === 'user' ? 'Klient' : 'Izydor';
+        const txt = m.text || (m.img ? '[wysłano zdjęcie]' : '');
+        return who + ': ' + txt;
+      });
+      const header = 'Rozmowa z asystentem Izydor — farbyjachtowe.pl\n' +
+                     new Date().toLocaleString('pl-PL') + '\n' +
+                     '────────────────────────────────────────\n\n';
+      const blob = new Blob([header + lines.join('\n\n')], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'rozmowa-izydor-' + new Date().toISOString().slice(0,10) + '.txt';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 100);
+    }
+
+    function clearTranscript() {
+      if (!transcript.length) return;
+      if (!confirm('Wyczyścić całą rozmowę? Tej operacji nie można cofnąć.')) return;
+      try { localStorage.removeItem(STORAGE_KEY); } catch (_) {}
+      location.reload();
+    }
+
     function addBubble(text, role, imageUrl) {
       const msgs = document.getElementById('chat-messages');
       const bubble = document.createElement('div');
@@ -997,6 +1077,7 @@
       input.value = '';
       sendBtn.disabled = true;
       addBubble(msg, 'user', image ? image.dataUrl : null);
+      logMsg('user', msg, image ? image.dataUrl : null);
       removeImage();
 
       const historyToSend = chatHistory.slice(-10);
@@ -1021,6 +1102,7 @@
         const data = await res.json();
         const reply = data.reply || 'Przepraszam, wystąpił błąd. Spróbuj ponownie.';
         addBubble(reply, 'bot');
+        logMsg('bot', reply, null);
         chatHistory.push({ role: 'assistant', content: reply });
 
       } catch (err) {
@@ -1033,6 +1115,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      restoreTranscript();
       const input = document.getElementById('chat-input');
       input.addEventListener('keydown', e => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
