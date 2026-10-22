@@ -123,6 +123,9 @@ export default {
     if (url.pathname === '/lead' && request.method === 'POST') {
       return handleLead(request, env);
     }
+    if (url.pathname === '/admin/img') {
+      return handleAdminImg(url, env);
+    }
     if (url.pathname === '/admin') {
       return handleAdmin(url, env);
     }
@@ -197,14 +200,24 @@ async function handleChat(request, env) {
 
     // Zapisz rozmowę do KV (jeśli namespace jest skonfigurowany)
     if (env.CONVERSATIONS) {
+      const TTL = 60 * 60 * 24 * 90; // 90 dni
       const sessionId = typeof body.sessionId === 'string' ? body.sessionId.slice(0, 36) : 'unknown';
       const ts = new Date().toISOString();
-      const key = `msg:${ts}:${sessionId.slice(0, 8)}`;
-      await env.CONVERSATIONS.put(key, JSON.stringify({
+      const suffix = `${ts}:${sessionId.slice(0, 8)}`;
+
+      // Zdjęcie zapisz osobno (lekki panel: ładuje się na żądanie przez /admin/img)
+      let imgId = null;
+      if (image) {
+        imgId = suffix;
+        await env.CONVERSATIONS.put(`img:${imgId}`, JSON.stringify({ m: image.media_type, d: image.data }), { expirationTtl: TTL });
+      }
+
+      await env.CONVERSATIONS.put(`msg:${suffix}`, JSON.stringify({
         ts, sessionId,
         user: (image ? '📷 [zdjęcie] ' : '') + message,
         bot: reply,
-      }), { expirationTtl: 60 * 60 * 24 * 90 }); // przechowuj 90 dni
+        img: imgId,
+      }), { expirationTtl: TTL });
     }
 
     return jsonResponse({ reply });
@@ -252,6 +265,27 @@ async function handleLead(request, env) {
   }
 }
 
+// Serwuje zdjęcie z KV dla panelu admina (ładowane leniwie przez <img>)
+async function handleAdminImg(url, env) {
+  if (!env.CONVERSATIONS) return new Response('KV nie skonfigurowane', { status: 503 });
+  if (url.searchParams.get('key') !== env.ADMIN_KEY) return new Response('Unauthorized', { status: 401 });
+
+  const id = url.searchParams.get('id') || '';
+  const raw = await env.CONVERSATIONS.get(`img:${id}`);
+  if (!raw) return new Response('Nie znaleziono', { status: 404 });
+
+  let media = 'image/jpeg', data = '';
+  try { const o = JSON.parse(raw); media = o.m || media; data = o.d || ''; } catch (_) {}
+
+  const bin = atob(data);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+
+  return new Response(bytes, {
+    headers: { 'Content-Type': media, 'Cache-Control': 'private, max-age=86400' },
+  });
+}
+
 async function handleAdmin(url, env) {
   if (!env.CONVERSATIONS) {
     return new Response('KV nie jest skonfigurowane.', { status: 503 });
@@ -292,14 +326,19 @@ async function handleAdmin(url, env) {
     const preview = hasLead
       ? esc(leadMsgs[0].user)
       : esc(msgs[msgs.length - 1].user.slice(0, 80));
-    const detail = msgs.map(m =>
-      `<div class="msg u${isLead(m) ? ' lead' : ''}"><b>Klient:</b> ${esc(m.user)}</div>` +
-      `<div class="msg b"><b>Asystent:</b> ${esc(m.bot)}</div>`
-    ).join('');
+    const hasImg = msgs.some(m => m.img);
+    const detail = msgs.map(m => {
+      const imgHtml = m.img
+        ? `<a href="/admin/img?key=${encodeURIComponent(env.ADMIN_KEY)}&id=${encodeURIComponent(m.img)}" target="_blank"><img class="msg-img" loading="lazy" src="/admin/img?key=${encodeURIComponent(env.ADMIN_KEY)}&id=${encodeURIComponent(m.img)}" alt="zdjęcie klienta"></a>`
+        : '';
+      return `<div class="msg u${isLead(m) ? ' lead' : ''}"><b>Klient:</b> ${esc(m.user)}${imgHtml}</div>` +
+             `<div class="msg b"><b>Asystent:</b> ${esc(m.bot)}</div>`;
+    }).join('');
     const badge = hasLead ? '<span class="badge-lead">📋 KONTAKT</span>' : '';
+    const imgBadge = hasImg ? '<span class="badge-img">📷 ZDJĘCIE</span>' : '';
     const html = `
       <details class="${hasLead ? 'has-lead' : ''}">
-        <summary>${badge}<span class="date">${date}</span> — ${preview}${count > 1 ? ` <em>(${count} wiad.)</em>` : ''}</summary>
+        <summary>${badge}${imgBadge}<span class="date">${date}</span> — ${preview}${count > 1 ? ` <em>(${count} wiad.)</em>` : ''}</summary>
         <div class="conv">${detail}</div>
       </details>`;
     return { html, hasLead, ts: last.ts };
@@ -329,6 +368,8 @@ async function handleAdmin(url, env) {
   details.has-lead { border: 2px solid #f7941d; box-shadow: 0 2px 16px rgba(247,148,29,.28); }
   details.has-lead summary { background: #fff6ec; }
   .badge-lead { display: inline-block; background: #f7941d; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; margin-right: 8px; }
+  .badge-img { display: inline-block; background: #1a5fa8; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; margin-right: 8px; }
+  .msg-img { display: block; max-width: 240px; max-height: 240px; border-radius: 8px; margin-top: 8px; border: 1px solid #c8dff5; cursor: zoom-in; }
   .lead-count { color: #e07b0a; font-weight: 700; }
 </style></head><body>
 <h1>💬 Rozmowy z asystentem</h1>
